@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lemmikkisovellus</title>
+</head>
+
+<body>
+  <p>
+    Tervetuloa lemmikkisovellukseen!<br>
+    Viestien määrä: {{ count }}
+  </p>
+  <hr />
+  {% for message in messages %}
+  <p>
+    {{ message[0] }}
+  </p>
+  <hr />
+  {% endfor %}
+  
+  <p>
+    <a href="/register">Rekisteröidy</a>
+  </p>
+</body>
+
+</html>
