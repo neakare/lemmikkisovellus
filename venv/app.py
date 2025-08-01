@@ -51,6 +51,30 @@ def new_message():
     petinfo.add_message(content, user_id, pet_id)
     return redirect("/pet/" + str(pet_id))
 
+@app.route("/edit/<int:message_id>", methods=["GET", "POST"])
+def edit_message(message_id):
+    message = petinfo.get_message(message_id)
+
+    if request.method == "GET":
+        return render_template("edit.html", message=message)
+
+    if request.method == "POST":
+        content = request.form["content"]
+        petinfo.update_message(message["id"], content)
+        return redirect("/pet/" + str(message["pet_id"]))
+
+@app.route("/remove/<int:message_id>", methods=["GET", "POST"])
+def remove_message(message_id):
+    message = petinfo.get_message(message_id)
+
+    if request.method == "GET":
+        return render_template("remove.html", message=message)
+
+    if request.method == "POST":
+        if "continue" in request.form:
+            petinfo.remove_message(message["id"])
+        return redirect("/pet/" + str(message["pet_id"]))
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
