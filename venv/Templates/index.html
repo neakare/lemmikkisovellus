@@ -7,21 +7,47 @@
 
 <body>
   <p>
-    Tervetuloa lemmikkisovellukseen!<br>
-    Viestien määrä: {{ count }}
+    <h1>Tervetuloa lemmikkisovellukseen!</h1>
+  </p>
+
+{% if session.user_id %}
+  <p>
+    Olet kirjautunut nimellä {{ username }}
   </p>
   <hr />
-  {% for message in messages %}
+
+  <h2>Lemmikit</h2>
+{% for pet in pets %}
   <p>
-    {{ message[0] }}
+    <a href="/pet/{{ pet.id }}">{{ pet.name }}</a>
+    <br />
+    {{pet.species}}, {{pet.breed}}, lisännyt {{pet.username}}<br/> 
+     {{ pet.total }} kommenttia, uusin {{ pet.last }}
   </p>
   <hr />
   {% endfor %}
 
-{% if session.username %}
+{% if session.user_id %}
+<h2>Lisää lemmikki</h2>
+
+<form action="/new_pet" method="post">
   <p>
-    Olet kirjautunut nimellä {{ session.username }}
+    Nimi: <br />
+    <input type="text" name="name" />
   </p>
+  <p>
+    Eläinlaji: <br />
+    <input type="text" name="species" />
+  </p>
+  <p>
+    Rotu: <br />
+    <input type="text" name="breed" />
+  </p>
+
+    <input type="submit" value="Lähetä" />
+</form>
+{% endif %}
+
   <p>
     <a href="/logout">Kirjaudu ulos</a>
   </p>
@@ -37,6 +63,36 @@
     </p>
     <input type="submit" value="Kirjaudu" />
   </form>
+  {% endif %}
+  
+<h2>Haku</h2>
+ <form action="/search" method="get">
+    <p>
+      Hakusana:
+      {% if query %}
+      <input type="text" name="query" value="{{ query }}" />
+      {% else %}
+      <input type="text" name="query" />
+      {% endif %}
+    </p>
+    <input type="submit" value="Hae" />
+  </form>
+
+ {% if query %}
+  <hr />
+  <h2>Tulokset</h2>
+  
+  <ul>
+  {% for result in results %}
+    <li>
+      <a href="/pet/{{ result.pet_id }}">
+        {{ result.pet_name }}
+      </a>
+      <br />
+      {{ result.username }} ({{ result.sent_at }})
+    </li>  
+  {% endfor %}
+  </ul>
   {% endif %}
   
   <p>
