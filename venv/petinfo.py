@@ -50,11 +50,13 @@ def search(query): #hakee viestin sisällöstä
     sql = """SELECT m.id message_id,
                     m.pet_id,
                     p.name pet_name,
+                    p.breed,
+                    p.species,
                     m.sent_at,
                     u.username
              FROM pets p, messages m, users u
              WHERE p.id = m.pet_id AND
                    u.id = m.user_id AND
-                   m.content LIKE ?
+                   m.content LIKE ? 
              ORDER BY m.sent_at DESC"""
     return db.query(sql, ["%" + query + "%"])

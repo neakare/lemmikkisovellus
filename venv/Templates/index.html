@@ -10,9 +10,14 @@
     <h1>Tervetuloa lemmikkisovellukseen!</h1>
   </p>
 
-{% if session.user_id %}
-  <p>
-    Olet kirjautunut nimellä {{ username }}
+<p>
+    <a href="/search">Haku</a> |
+    <a href="/register">Luo tunnus</a> |
+    {% if session.user_id %}
+    <a href="/logout">Kirjaudu ulos</a>
+    {% else %}
+    <a href="/login">Kirjaudu sisään</a>
+    {% endif %}
   </p>
   <hr />
 
@@ -48,56 +53,7 @@
 </form>
 {% endif %}
 
-  <p>
-    <a href="/logout">Kirjaudu ulos</a>
-  </p>
-  {% else %}
-  <form action="/login" method="post">
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" />
-    </p>
-    <p>
-      Salasana: <br />
-      <input type="password" name="password" />
-    </p>
-    <input type="submit" value="Kirjaudu" />
-  </form>
-  {% endif %}
-  
-<h2>Haku</h2>
- <form action="/search" method="get">
-    <p>
-      Hakusana:
-      {% if query %}
-      <input type="text" name="query" value="{{ query }}" />
-      {% else %}
-      <input type="text" name="query" />
-      {% endif %}
-    </p>
-    <input type="submit" value="Hae" />
-  </form>
 
- {% if query %}
-  <hr />
-  <h2>Tulokset</h2>
-  
-  <ul>
-  {% for result in results %}
-    <li>
-      <a href="/pet/{{ result.pet_id }}">
-        {{ result.pet_name }}
-      </a>
-      <br />
-      {{ result.username }} ({{ result.sent_at }})
-    </li>  
-  {% endfor %}
-  </ul>
-  {% endif %}
-  
-  <p>
-    <a href="/register">Rekisteröidy</a>
-  </p>
 </body>
 
 </html>
