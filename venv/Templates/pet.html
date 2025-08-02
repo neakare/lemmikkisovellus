@@ -9,7 +9,14 @@
   <h1>{{ pet.name }}</h1>
   Eläinlaji: {{pet.species}}<br />
   Rotu: {{pet.breed}}<br/>
-  Lisännyt {{pet.username}}
+  Lisännyt: {{pet.username}}<br/>
+
+  {% if pet.user_id == session.user_id %}
+  <p>
+    <a href="/edit_pet/{{ pet.id }}">Muokkaa lemmikkiä</a> |
+    <a href="/remove_pet/{{ pet.id }}">Poista lemmikki</a>
+  </p>
+  {% endif %}
 
   <hr />
   <h3>Kommentit</h3>
@@ -22,8 +29,8 @@
   </p>
   {% if message.user_id == session.user_id %}
   <p>
-    <a href="/edit/{{ message.id }}">Muokkaa</a> |
-    <a href="/remove/{{ message.id }}">Poista</a>
+    <a href="/edit/{{ message.id }}">Muokkaa viestiä</a> |
+    <a href="/remove/{{ message.id }}">Poista viesti</a>
   </p>
   {% endif %}
   <hr />

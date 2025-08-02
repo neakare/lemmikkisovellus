@@ -42,6 +42,33 @@ def new_pet():
     pet_id = petinfo.add_pet(name, species, breed, user_id)
     return redirect("/pet/" + str(pet_id))
 
+@app.route("/edit_pet/<int:pet_id>", methods=["GET", "POST"])
+def edit_pet(pet_id):
+    pet = petinfo.get_pet(pet_id)
+
+    if request.method == "GET":
+        return render_template("edit_pet.html", pet=pet)
+
+    if request.method == "POST":
+        name = request.form["name"]
+        species = request.form["species"]
+        breed = request.form["breed"]
+        petinfo.update_pet(pet_id, name, species, breed)
+        return redirect("/pet/" +  str(pet_id))
+
+@app.route("/remove_pet/<int:pet_id>", methods=["GET", "POST"])
+def remove_pet(pet_id):
+    pet = petinfo.get_pet(pet_id)
+
+    if request.method == "GET":
+        return render_template("remove_pet.html", pet=pet)
+
+    if request.method == "POST":
+        if "continue" in request.form:
+            petinfo.remove_all_messages(pet_id)
+            petinfo.remove_pet(pet_id)
+        return redirect("/")
+
 @app.route("/new_message", methods=["POST"])
 def new_message():
     content = request.form["content"]

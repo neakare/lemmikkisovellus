@@ -10,7 +10,7 @@ def get_pets():
     return db.query(sql)
 
 def get_pet(pet_id):
-    sql = """SELECT p.id, p.name, p.species, p.breed, u.username 
+    sql = """SELECT p.id, p.name, p.species, p.breed, u.username, p.user_id 
              FROM pets p, users u 
              WHERE p.id = ? AND
              p.user_id = u.id"""
@@ -21,6 +21,18 @@ def add_pet(name, species, breed, user_id):
     db.execute(sql, [name, species, breed, user_id])
     pet_id = db.last_insert_id()
     return pet_id
+
+def update_pet(pet_id, name, species, breed):
+    sql = """UPDATE pets 
+             SET name = ?, 
+                 species = ?,
+                 breed = ?
+             WHERE id = ?"""
+    db.execute(sql, [name, species, breed, pet_id])
+
+def remove_pet(pet_id):
+    sql = "DELETE FROM pets WHERE id = ?"
+    db.execute(sql, [pet_id])
 
 def add_message(content, user_id, pet_id):
     sql = """INSERT INTO messages (content, sent_at, user_id, pet_id)
@@ -45,6 +57,10 @@ def update_message(message_id, content):
 def remove_message(message_id):
     sql = "DELETE FROM messages WHERE id = ?"
     db.execute(sql, [message_id])
+
+def remove_all_messages(pet_id):
+    sql = "DELETE FROM messages WHERE pet_id = ?"
+    db.execute(sql, [pet_id])
 
 def search(query): #hakee viestin sisällöstä
     sql = """SELECT m.id message_id,
