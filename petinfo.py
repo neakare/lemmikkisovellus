@@ -15,7 +15,8 @@ def get_pet(pet_id):
              FROM pets p, users u 
              WHERE p.id = ? AND
              p.user_id = u.id"""
-    return db.query(sql, [pet_id])[0]
+    result = db.query(sql, [pet_id])
+    return result[0] if result else None
 
 def add_pet(name, species, breed, user_id):
     sql = "INSERT INTO pets (name, species, breed, user_id) VALUES (?, ?, ?, ?)"
@@ -49,7 +50,8 @@ def get_messages(pet_id):
 
 def get_message(message_id):
     sql = "SELECT id, content, user_id, pet_id FROM messages WHERE id = ?"
-    return db.query(sql, [message_id])[0]
+    result = db.query(sql, [message_id])
+    return result[0] if result else None
 
 def update_message(message_id, content):
     sql = "UPDATE messages SET content = ? WHERE id = ?"

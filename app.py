@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, abort
 import db, config, users, petinfo
 
 app = Flask(__name__)
@@ -14,6 +14,8 @@ def index():
 @app.route("/pet/<int:pet_id>")
 def show_pet(pet_id):
     pet = petinfo.get_pet(pet_id)
+    if not pet:
+        abort(404)
     messages = petinfo.get_messages(pet_id)
     return render_template("pet.html", pet=pet, messages=messages)
 
@@ -30,6 +32,11 @@ def new_pet():
 @app.route("/edit_pet/<int:pet_id>", methods=["GET", "POST"])
 def edit_pet(pet_id):
     pet = petinfo.get_pet(pet_id)
+    if not pet:
+        abort(404)
+    
+    if pet["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("edit_pet.html", pet=pet)
@@ -44,6 +51,11 @@ def edit_pet(pet_id):
 @app.route("/remove_pet/<int:pet_id>", methods=["GET", "POST"])
 def remove_pet(pet_id):
     pet = petinfo.get_pet(pet_id)
+    if not pet:
+        abort(404)
+    
+    if pet["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("remove_pet.html", pet=pet)
@@ -61,11 +73,17 @@ def new_message():
     pet_id = request.form["pet_id"]
 
     petinfo.add_message(content, user_id, pet_id)
+
     return redirect("/pet/" + str(pet_id))
 
 @app.route("/edit/<int:message_id>", methods=["GET", "POST"])
 def edit_message(message_id):
     message = petinfo.get_message(message_id)
+    if not message:
+        abort(404)
+    
+    if message["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("edit.html", message=message)
@@ -78,6 +96,11 @@ def edit_message(message_id):
 @app.route("/remove/<int:message_id>", methods=["GET", "POST"])
 def remove_message(message_id):
     message = petinfo.get_message(message_id)
+    if not message:
+        abort(404)
+
+    if message["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("remove.html", message=message)
