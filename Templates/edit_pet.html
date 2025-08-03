@@ -1,15 +1,15 @@
 <form action="/edit_pet/{{ pet.id }}" method="post">
   <p>
     Nimi: <br />
-    <textarea name="name">{{ pet.name }}</textarea>
+    <textarea name="name" maxlength="100" required>{{ pet.name }}</textarea>
   </p>
   <p>
     Eläinlaji: <br />
-    <textarea name="species">{{ pet.species }}</textarea>
+    <textarea name="species" maxlength="100">{{ pet.species }}</textarea>
   </p>
   <p>
     Rotu: <br />
-    <textarea name="breed">{{ pet.breed }}</textarea>
+    <textarea name="breed" maxlength="100">{{ pet.breed }}</textarea>
   </p>
   <input type="submit" value="Lähetä" />
 </form>

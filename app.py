@@ -21,16 +21,19 @@ def show_pet(pet_id):
 
 @app.route("/new_pet", methods=["POST"])
 def new_pet():
+    require_login()
     name = request.form["name"]
     species = request.form["species"]
     breed = request.form["breed"]
     user_id = session["user_id"]
-
+    if not name or any(len(item) > 100 for item in (name, species, breed)):
+        abort(403)
     pet_id = petinfo.add_pet(name, species, breed, user_id)
     return redirect("/pet/" + str(pet_id))
 
 @app.route("/edit_pet/<int:pet_id>", methods=["GET", "POST"])
 def edit_pet(pet_id):
+    require_login()
     pet = petinfo.get_pet(pet_id)
     if not pet:
         abort(404)
@@ -45,11 +48,14 @@ def edit_pet(pet_id):
         name = request.form["name"]
         species = request.form["species"]
         breed = request.form["breed"]
+        if any(len(item) > 100 for item in (name, species, breed)):
+            abort(403)
         petinfo.update_pet(pet_id, name, species, breed)
         return redirect("/pet/" +  str(pet_id))
 
 @app.route("/remove_pet/<int:pet_id>", methods=["GET", "POST"])
 def remove_pet(pet_id):
+    require_login()
     pet = petinfo.get_pet(pet_id)
     if not pet:
         abort(404)
@@ -68,16 +74,19 @@ def remove_pet(pet_id):
 
 @app.route("/new_message", methods=["POST"])
 def new_message():
+    require_login()
     content = request.form["content"]
     user_id = session["user_id"]
     pet_id = request.form["pet_id"]
-
+    if not content or len(content) > 5000:
+        abort(403)
     petinfo.add_message(content, user_id, pet_id)
 
     return redirect("/pet/" + str(pet_id))
 
 @app.route("/edit/<int:message_id>", methods=["GET", "POST"])
 def edit_message(message_id):
+    require_login()
     message = petinfo.get_message(message_id)
     if not message:
         abort(404)
@@ -90,11 +99,14 @@ def edit_message(message_id):
 
     if request.method == "POST":
         content = request.form["content"]
+        if len(content) > 5000:
+            abort(403)
         petinfo.update_message(message["id"], content)
         return redirect("/pet/" + str(message["pet_id"]))
 
 @app.route("/remove/<int:message_id>", methods=["GET", "POST"])
 def remove_message(message_id):
+    require_login()
     message = petinfo.get_message(message_id)
     if not message:
         abort(404)
@@ -125,7 +137,7 @@ def register():
 
         try:
             users.create_user(username, password1)
-            return "Tunnus luotu"
+            return redirect("/login")
         except sqlite3.IntegrityError:
             return "VIRHE: tunnus on jo varattu"
 
@@ -141,12 +153,14 @@ def login():
         user_id = users.check_login(username, password)
         if user_id:
             session["user_id"] = user_id
+            session["username"] = username
             return redirect("/")
         else:
             return "VIRHE: väärä tunnus tai salasana"
     
 @app.route("/logout")
 def logout():
+    require_login()
     del session["user_id"]
     return redirect("/")
 
@@ -155,3 +169,7 @@ def search():
     query = request.args.get("query")
     results = petinfo.search(query) if query else []
     return render_template("search.html", query=query, results=results)
+
+def require_login():
+    if "user_id" not in session:
+        abort(403)

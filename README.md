@@ -1,19 +1,19 @@
 # lemmikkisovellus
 
 Lemmikkisovelluksella on tällä hetkellä seuraavat ominaisuudet:
-1. Sovelluksessa käyttäjät pystyvät tallentamaan lemmikkien tietoja. Lemmikin tiedoissa lukee sen eläinlaji, nimi ja rotu.
+1. Käyttäjä pystyyy tallentamaan lemmikkien tietoja. Lemmikin tiedoissa lukee sen eläinlaji, nimi ja rotu. Nimi on pakollinen tieto.
 2. Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen ja ulos siitä.
 3. Käyttäjä näkee sovellukseen lisätyt lemmikit.
-4. Käyttäjä pystyy lisäämään lemmikkejä ja muokkaamaan niiden tietoja ja poistamaan niitä.
+4. Käyttäjä pystyy lisäämään lemmikkejä ja muokkaamaan niiden tietoja ja poistamaan niitä (muokkaus ja poistaminen on mahdollista vain käyttäjän lisäämille lemmikeille).
 5. Käyttäjä näkee lemmikkien tietoihin jätetyt kommentit
-6. Käyttäjä pystyy kommentoimaan lemmikkejä, muokkaamaan kommenttia ja poistamaan sen.
-5. Käyttäjä pystyy etsimään lemmikkejä sekä kommentteja hakusanalla.
+6. Käyttäjä pystyy kommentoimaan lemmikkejä, muokkaamaan kommenttia ja poistamaan niitä (muokkaus ja poistaminen on mahdollista vain käyttäjän lisäämille kommenteille).
+5. Käyttäjä pystyy etsimään kommentteja hakusanalla. Haku hakee tällä hetkellä vain lemmikkien kommenteista.
 
 Tässä pääasiallinen tietokohde on lemmikki ja toissijainen tietokohde on kommentti lemmikin tietoihin.
 
 Yleistä toteutuksesta:
 
-Sovelluksen tietokannan saat luotua schema.sql tiedoston avulla. Lisäksi sovelluksen git-kansiosta löytyy Templates-kansiosta käytetyt html-sivupohjat ja sovelluksen käyttämät py-tiedostot. petinfo.py -tiedostossa on toteutettu kaikki metodit, joissa määritellään pet ja messages -tauluihin liittyvät SQL-kyselyt. Users-talulle on oma users.py -tiedosto. 
+Sovelluksen tietokannan saat luotua schema.sql tiedoston avulla. Lisäksi sovelluksen git-kansiosta löytyy Templates-kansiosta käytetyt html-sivupohjat ja sovelluksen käyttämät py-tiedostot. petinfo.py -tiedostossa on toteutettu kaikki metodit, joissa määritellään pet ja messages -tauluihin liittyvät SQL-kyselyt. Users-tauluun liittyville sql-kyselyille on oma users.py -tiedosto. 
 
 Testausohjeet:
 
@@ -32,7 +32,7 @@ Sovellus on vielä kehitysvaiheessa ja siinä ei sen takia ole vielä ihan kaikk
 1. Luo uusia käyttäjiä tietokantaan, kirjaudu sisään ja ulos eri käyttäjillä
 2. Luo uusia lemmikkejä tietokantaan, muokkaa niiden tietoja ja poista lemmikkejä.
 3. Kommentoi lemmikkien tietoja, muokkaa kommentteja ja poista niitä.
-4. Hae lemmikkejä ja kommentteja haku-toiminnolla.
+4. Hae kommentteja haku-toiminnolla.
 
 
 

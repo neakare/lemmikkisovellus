@@ -42,7 +42,7 @@
   <form action="/new_message" method="post">
     <p>
       Kommentti:<br />
-      <textarea name="content" rows="5" cols="40"></textarea>
+      <textarea name="content" rows="5" cols="40"  maxlength="5000" required></textarea>
     </p>
     <input type="hidden" name="pet_id" value="{{ pet.id }}" />
     <input type="submit" value="Lähetä" />

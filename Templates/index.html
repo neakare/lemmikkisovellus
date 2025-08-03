@@ -11,13 +11,15 @@
   </p>
 
 <p>
-    <a href="/search">Haku</a> |
-    <a href="/register">Luo tunnus</a> |
     {% if session.user_id %}
-    <a href="/logout">Kirjaudu ulos</a>
+    Olet kirjautunut sisään käyttäjänimellä {{session.username}} <br/>
+    <a href="/logout">Kirjaudu ulos</a><br/>
     {% else %}
+    <a href="/register">Luo tunnus</a> |
     <a href="/login">Kirjaudu sisään</a>
     {% endif %}
+    <hr />
+    <a href="/search">Haku</a>
   </p>
   <hr />
 
@@ -45,15 +47,15 @@
 <form action="/new_pet" method="post">
   <p>
     Nimi: <br />
-    <input type="text" name="name" />
+    <input type="text" name="name" maxlength="100" required/>
   </p>
   <p>
     Eläinlaji: <br />
-    <input type="text" name="species" />
+    <input type="text" name="species" maxlength="100"/>
   </p>
   <p>
     Rotu: <br />
-    <input type="text" name="breed" />
+    <input type="text" name="breed"  maxlength="100"/>
   </p>
 
     <input type="submit" value="Lähetä" />
