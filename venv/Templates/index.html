@@ -26,8 +26,15 @@
   <p>
     <a href="/pet/{{ pet.id }}">{{ pet.name }}</a>
     <br />
+    {% if pet.total == 0 %}
+    {{pet.species}}, {{pet.breed}}, lisännyt {{pet.username}}<br/>
+    Ei kommentteja
+    
+    {% else %}
     {{pet.species}}, {{pet.breed}}, lisännyt {{pet.username}}<br/> 
-     {{ pet.total }} kommenttia, uusin {{ pet.last }}
+    {{ pet.total }} kommenttia, uusin {{ pet.last }}
+
+    {% endif %}
   </p>
   <hr />
   {% endfor %}

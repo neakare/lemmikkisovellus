@@ -1,11 +1,12 @@
 import db
 
 def get_pets():
-    sql = """SELECT p.id, p.name, p.species, p.breed, u.username, COUNT(m.id) total, MAX(m.sent_at) last
-             FROM pets p, messages m, users u
-             WHERE p.id = m.pet_id AND
-             p.user_id = u.id
-             GROUP BY p.id
+    sql = """SELECT p.id, p.name, p.species, p.breed, u.username, 
+             COUNT(m.id) total, MAX(m.sent_at) last
+             FROM pets p
+             LEFT JOIN messages m ON p.id = m.pet_id
+             JOIN users u ON p.user_id = u.id
+             GROUP BY p.id, p.name, p.species, p.breed, u.username
              ORDER BY p.id DESC"""
     return db.query(sql)
 

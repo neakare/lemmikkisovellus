@@ -1,18 +1,3 @@
-'''Tavoitteena on, että sovelluksessa on ainakin seuraavat toiminnot:
-Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
-    muuten OK, mutta ei näytä session kirjautuneen nimeä
-Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan tietokohteita.
-    voi lisätä tietokantaan
-Käyttäjä näkee sovellukseen lisätyt tietokohteet.
-    näkee osoitteella, etusivulla vain silloin kun on kommentti
-Käyttäjä pystyy etsimään tietokohteita hakusanalla tai muulla perusteella.
-    viesteistä voi etsiä
-README.md-tiedoston tulee kuvata, millainen sovellus on ja miten sitä voi testata.
-Saat seuraavan viikon alussa ohjaajalta palautteen sovelluksesta Labtooliin.
-Vinkkejä palautukseen:
-Muista antaa README.md-tiedostossa ohjeet siihen, miten sovelluksen testaaja saa käynnistettyä sovelluksen omalla koneellaan.
-Tiedosto database.db ei kuulu repositorioon. Sovelluksen testaajan pitäisi pystyä luomaan tietokanta .sql-tiedostojen perusteella.'''
-
 import sqlite3
 from flask import Flask
 from flask import redirect, render_template, request, session
