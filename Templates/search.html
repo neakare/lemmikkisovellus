@@ -10,7 +10,28 @@
 
   <form action="/search" method="get">
     <p>
-      Hakusana:
+      <!-- Nimi:
+      {% if query %}
+      <input type="text" name="name" value="{{ name }}" />
+      {% else %}
+      <input type="text" name="name" />
+      {% endif %}
+      <br/>
+      Eläinlaji:
+      {% if query %}
+      <input type="text" name="species" value="{{ species }}" />
+      {% else %}
+      <input type="text" name="species" />
+      {% endif %}
+      <br/>
+      Rotu:
+      {% if query %}
+      <input type="text" name="breed" value="{{ breed }}" />
+      {% else %}
+      <input type="text" name="breed" />
+      {% endif %}
+      <br/> -->
+      Kommentti:
       {% if query %}
       <input type="text" name="query" value="{{ query }}" />
       {% else %}

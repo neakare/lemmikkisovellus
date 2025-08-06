@@ -1,7 +1,8 @@
 CREATE TABLE users (
     id INTEGER PRIMARY KEY,
     username TEXT UNIQUE,
-    password_hash TEXT
+    password_hash TEXT,
+    image BLOB
 );
 
 CREATE TABLE pets (
@@ -9,6 +10,7 @@ CREATE TABLE pets (
     name TEXT,
     species TEXT,
     breed TEXT,
+    image BLOB,
     user_id INTEGER REFERENCES users
 );
 
@@ -31,3 +33,4 @@ CREATE TABLE messages (
     user_id INTEGER REFERENCES users,
     pet_id INTEGER REFERENCES pets
 );
+

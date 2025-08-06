@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session, abort
+from flask import redirect, render_template, request, session, abort, make_response
 import db, config, users, petinfo
 
 app = Flask(__name__)
@@ -173,3 +173,73 @@ def search():
 def require_login():
     if "user_id" not in session:
         abort(403)
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    messages = users.get_messages(user_id)
+    pets = users.get_pets(user_id)
+    return render_template("user.html", user=user, messages=messages, pets=pets)
+
+@app.route("/add_image_user", methods=["GET", "POST"])
+def add_image_user():
+    require_login()
+
+    if request.method == "GET":
+        return render_template("add_image.html")
+
+    if request.method == "POST":
+        file = request.files["image"]
+        if not file.filename.endswith(".jpg"):
+            return "VIRHE: väärä tiedostomuoto"
+
+        image = file.read()
+        if len(image) > 100 * 1024:
+            return "VIRHE: liian suuri kuva"
+
+        user_id = session["user_id"]
+        users.update_image(user_id, image)
+        return redirect("/user/" + str(user_id))
+
+@app.route("/image/<int:user_id>")
+def show_image_user(user_id):
+    image = users.get_image(user_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
+
+@app.route("/pet/add_image/<int:pet_id>", methods=["GET", "POST"])
+def add_image_pet(pet_id):
+    require_login()
+    pet = pet.get_pet(pet_id)
+
+    if request.method == "GET":
+        return render_template("add_image.html")
+
+    if request.method == "POST":
+        file = request.files["image"]
+        if not file.filename.endswith(".jpg"):
+            return "VIRHE: väärä tiedostomuoto"
+
+        image = file.read()
+        if len(image) > 100 * 1024:
+            return "VIRHE: liian suuri kuva"
+
+        pet.user_id = session["user_id"]
+        petinfo.update_image(pet_id, image)
+        return redirect("/pet/" + str(pet_id))
+
+@app.route("/image/<int:pet_id>")
+def show_image_pet(pet_id):
+    image = petinfo.get_image(pet_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response

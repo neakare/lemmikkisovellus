@@ -29,11 +29,11 @@
     <a href="/pet/{{ pet.id }}">{{ pet.name }}</a>
     <br />
     {% if pet.total == 0 %}
-    {{pet.species}}, {{pet.breed}}, lisännyt {{pet.username}}<br/>
+    {{pet.species}}, {{pet.breed}}, lisännyt <a href="/user/{{ pet.user_id }}">{{ pet.username }}</a><br/>
     Ei kommentteja
     
     {% else %}
-    {{pet.species}}, {{pet.breed}}, lisännyt {{pet.username}}<br/> 
+    {{pet.species}}, {{pet.breed}}, lisännyt <a href="/user/{{ pet.user_id }}">{{ pet.username }}</a><br/> 
     {{ pet.total }} kommenttia, uusin {{ pet.last }}
 
     {% endif %}

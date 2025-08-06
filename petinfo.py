@@ -1,7 +1,7 @@
 import db
 
 def get_pets():
-    sql = """SELECT p.id, p.name, p.species, p.breed, u.username, 
+    sql = """SELECT p.id, p.name, p.species, p.breed, u.username, p.user_id,
              COUNT(m.id) total, MAX(m.sent_at) last
              FROM pets p
              LEFT JOIN messages m ON p.id = m.pet_id
@@ -35,6 +35,15 @@ def update_pet(pet_id, name, species, breed):
 def remove_pet(pet_id):
     sql = "DELETE FROM pets WHERE id = ?"
     db.execute(sql, [pet_id])
+
+def update_image(pet_id, image):
+    sql = "UPDATE pets SET image = ? WHERE id = ?"
+    db.execute(sql, [image, pet_id])
+
+def get_image(pet_id):
+    sql = "SELECT image FROM pets WHERE id = ?"
+    result = db.query(sql, [pet_id])
+    return result[0][0] if result else None
 
 def add_message(content, user_id, pet_id):
     sql = """INSERT INTO messages (content, sent_at, user_id, pet_id)

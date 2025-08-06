@@ -1,0 +1,50 @@
+  <h1>Käyttäjä {{ user.username }}</h1>
+
+  <p>
+    Käyttäjä on lisännyt {{ pets | count }} lemmikkiä</br>
+    Käyttäjä on lisännyt {{ messages | count }} kommenttia
+  </p>
+
+  {% if user.has_image %}
+  <img src="/image/{{ user.id }}" />
+  {% endif %}
+
+  {% if messages %}
+  <p>
+    Ensimmäinen kommentti lisätty {{ messages[-1].sent_at }}
+  </p>
+  <p>
+    Viimeisin kommentti lisätty {{ messages[0].sent_at }}
+  </p>
+  {% endif %}
+
+  <h2>Käyttäjän lisäämät lemmikit</h2>
+  <ul>
+  {% for pet in pets %}
+    <li>
+      <a href="/pet/{{ pet.id }}">{{ pet.name }}</a>
+      <br />
+      ({{ pet.species }}, {{ pet.breed }})
+    </li>  
+  {% endfor %}
+  </ul>
+
+  <h2>Käyttäjän lisäämät kommentit</h2>
+  <ul>
+  {% for message in messages %}
+    <li>
+      <a href="/pet/{{ message.pet_id }}#{{ message.id }}">
+        {{ message.pet_name }}
+      </a>
+      <br />
+      ({{ message.sent_at }})
+    </li>  
+  {% endfor %}
+  </ul>
+
+  <p>
+    <a href="/">Etusivulle</a>
+  </p>
+
+
+
