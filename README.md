@@ -19,36 +19,28 @@ Sovelluksen tietokannan saat luotua schema.sql tiedoston avulla. Lisäksi sovell
 ## Testausohjeet:
 
 1. Aloita testaaminen kloonaamalla git-repositorio tietokoneellesi. Voit tehdä sen esimerkiksi VSCodella tai GitBashilla. Tarvitset sitä varten git-repositorion osoitteen, joka löytyy Githubin repositorion etusivulta vihreästä Code-painikkeesta. Gitbashilla saat kloonattua repositorion komennolla `git clone https://github.com/neakare/lemmikkisovellus.git`
-
 2. Tarvitset samaan kansioon myös kurssin materiaalin 1. osassa kuvatun Pythonin virtuaaliympäristön ja flask-asennuksen. Lisäksi tarvitset sqlite-asennuksen (ks. kurssimateriaalin osa 2).
-
-### Linuxilla
-`$ cd "laita tähän kansion osoite johon kloonasit sovelluksen"`
-`$ python3 -m venv venv`
-`$ source venv/bin/activate`
-`$ pip install flask`
-sqliten voit esimerkiksi kopioida samaan kansioon omasta projektistasi.
-
-### Windowsilla
-`cd "laita tähän kansion osoite johon kloonasit sovelluksen"`
-`python -m venv venv`
-`venv\Scripts\activate`
-`pip install flask`
-
 3. Tietokanta luodaan schema-tiedostolla. 
+4. Kun olet tehnyt yllämainitut asennukset, voit aloittaa itse testauksen. Sovellusta käytetään virtuaaliympäristössä samalla tavalla kuin kurssimateriaalissa on kuvattu osiossa 1. Alla vielä komennot ajamista varten.
+
+
 ### Linuxilla
-`$ sqlite3 database.db < schema.sql`
+`$ cd "laita tähän kansion osoite johon kloonasit sovelluksen"`  
+`$ python3 -m venv venv`  
+`$ source venv/bin/activate`  
+`$ pip install flask`  
+sqliten voit esimerkiksi kopioida samaan kansioon omasta projektistasi.  
+`$ sqlite3 database.db < schema.sql`  
+`$ flask run` tai `$ flask run --debug`  
 
 ### Windowsilla
-`sqlite3 database.db < schema.sql`
-
-
-4. Kun olet tehnyt yllämainitut asennukset, voit aloittaa itse testauksen. Sovellusta käytetään virtuaaliympäristössä samalla tavalla kuin kurssimateriaalissa on kuvattu osiossa 1. 
-### Linuxilla
-`$ flask run` tai `$ flask run --debug`
-
-### Windowsilla
-`flask run` tai `flask run --debug`
+`cd "laita tähän kansion osoite johon kloonasit sovelluksen"`  
+`python -m venv venv`  
+`venv\Scripts\activate`  
+`pip install flask`  
+sqliten voit esimerkiksi kopioida samaan kansioon omasta projektistasi.  
+`sqlite3 database.db < schema.sql`  
+`flask run` tai `flask run --debug`  
 
 
 ## Sovelluksen tämänhetkiset toiminnallisuudet ja niiden testaaminen
