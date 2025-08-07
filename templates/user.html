@@ -1,22 +1,29 @@
   <h1>Käyttäjä {{ user.username }}</h1>
 
+  {% if user.id == session.user_id %}
+  {% if user.has_image %}
+  <img src="/image/{{ user.id }}" width="150"/><br/>
+  <a href="/add_image_user">Vaihda kuva</a> | 
+  <a href="/remove/image/{{ user.id }}">Poista kuva</a>
+
+  {% else %}
+  <a href="/add_image_user">Lisää kuva</a>
+  {% endif %}
+  {% endif %}
+
   <p>
     Käyttäjä on lisännyt {{ pets | count }} lemmikkiä</br>
     Käyttäjä on lisännyt {{ messages | count }} kommenttia
   </p>
 
-  {% if user.has_image %}
-  <img src="/image/{{ user.id }}" />
-  {% endif %}
 
   {% if messages %}
   <p>
-    Ensimmäinen kommentti lisätty {{ messages[-1].sent_at }}
-  </p>
-  <p>
+    Ensimmäinen kommentti lisätty {{ messages[-1].sent_at }}<br/>
     Viimeisin kommentti lisätty {{ messages[0].sent_at }}
   </p>
   {% endif %}
+
 
   <h2>Käyttäjän lisäämät lemmikit</h2>
   <ul>

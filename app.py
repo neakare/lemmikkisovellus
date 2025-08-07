@@ -188,7 +188,7 @@ def add_image_user():
     require_login()
 
     if request.method == "GET":
-        return render_template("add_image.html")
+        return render_template("add_image_user.html")
 
     if request.method == "POST":
         file = request.files["image"]
@@ -219,7 +219,7 @@ def add_image_pet(pet_id):
     pet = pet.get_pet(pet_id)
 
     if request.method == "GET":
-        return render_template("add_image.html")
+        return render_template("add_image_pet.html")
 
     if request.method == "POST":
         file = request.files["image"]
@@ -243,3 +243,16 @@ def show_image_pet(pet_id):
     response = make_response(bytes(image))
     response.headers.set("Content-Type", "image/jpeg")
     return response
+
+@app.route("/remove/image/<int:user_id>")
+def remove_image_user(user_id):
+    require_login()
+    image = users.get_image(user_id)
+    if not image:
+        abort(404)
+    
+    if user_id != session["user_id"]:
+        abort(403)
+    
+    users.remove_image(user_id)
+    return redirect("/user/" + str(user_id))
