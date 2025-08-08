@@ -1,15 +1,20 @@
 <form action="/edit_pet/{{ pet.id }}" method="post">
   <p>
-    Nimi: <br />
-    <textarea name="name" maxlength="100" required>{{ pet.name }}</textarea>
+    <h1>Muokkaa lemmikin {{ pet.name }} tietoja</h1>
+    Tähdellä merkityt kentät ovat pakollisia. <br/><br/>
+    Nimi*: <br />
+    <textarea name="name" maxlength="50" required>{{ pet.name }}</textarea>
   </p>
   <p>
-    Eläinlaji: <br />
-    <textarea name="species" maxlength="100">{{ pet.species }}</textarea>
+    Eläinlaji*: <br />
+    <textarea name="species" maxlength="100" required>{{ pet.species }}</textarea>
   </p>
   <p>
     Rotu: <br />
     <textarea name="breed" maxlength="100">{{ pet.breed }}</textarea>
   </p>
   <input type="submit" value="Lähetä" />
+  <p>
+    <a href="/pet/{{ pet.id }}">Palaa lemmikin tietoihin</a> | <a href="/">Etusivulle</a>
+  </p>
 </form>

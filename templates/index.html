@@ -23,7 +23,7 @@
   </p>
   <hr />
 
-  <h2>Lemmikit</h2>
+  <h2>Kaikki sovelluksen lemmikit</h2>
 {% for pet in pets %}
   <p>
     <a href="/pet/{{ pet.id }}">{{ pet.name }}</a>
@@ -43,15 +43,16 @@
 
 {% if session.user_id %}
 <h2>Lisää lemmikki</h2>
+Tähdellä merkityt kentät ovat pakollisia.
 
 <form action="/new_pet" method="post">
   <p>
-    Nimi: <br />
-    <input type="text" name="name" maxlength="100" required/>
+    Nimi*: <br />
+    <input type="text" name="name" maxlength="50" required/>
   </p>
   <p>
-    Eläinlaji: <br />
-    <input type="text" name="species" maxlength="100"/>
+    Eläinlaji*: <br />
+    <input type="text" name="species" maxlength="100" required/>
   </p>
   <p>
     Rotu: <br />
