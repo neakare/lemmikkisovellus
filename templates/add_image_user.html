@@ -1,6 +1,11 @@
  <form action="/add_image_user" method="post" enctype="multipart/form-data">
     <p>
+      <h1>Lisää kuva käyttäjälle {{ user.username }}</h1>
+      Kuvan tulee olla kooltaan alle 100 kt ja .jpg -muotoinen.<br/><br/>
       Kuva: <input type="file" name="image" accept=".jpg" />
     </p>
     <input type="submit" value="Lähetä" />
+    <p>
+    <a href="/user/{{ user.id }}">Palaa käyttäjän tietoihin</a> | <a href="/">Etusivulle</a>
+  </p>
   </form>

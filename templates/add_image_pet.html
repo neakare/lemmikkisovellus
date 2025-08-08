@@ -1,0 +1,12 @@
+ <form action="/pet/add_image/{{ pet.id }}" method="post" enctype="multipart/form-data">
+    <p>
+        <h1>Lisää kuva lemmikille {{ pet.name }}</h1>
+        Kuvan tulee olla kooltaan alle 100 kt ja .jpg -muotoinen.<br/><br/>
+      Kuva: <input type="file" name="image" accept=".jpg" />
+    </p>
+    <input type="submit" value="Lähetä" />
+
+     <p>
+    <a href="/pet/{{ pet.id }}">Palaa lemmikin tietoihin</a> | <a href="/">Etusivulle</a>
+  </p>
+  </form>

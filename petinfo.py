@@ -11,7 +11,7 @@ def get_pets():
     return db.query(sql)
 
 def get_pet(pet_id):
-    sql = """SELECT p.id, p.name, p.species, p.breed, u.username, p.user_id 
+    sql = """SELECT p.id, p.name, p.species, p.breed, u.username, p.user_id, p.image IS NOT NULL has_image 
              FROM pets p, users u 
              WHERE p.id = ? AND
              p.user_id = u.id"""
@@ -36,7 +36,7 @@ def remove_pet(pet_id):
     sql = "DELETE FROM pets WHERE id = ?"
     db.execute(sql, [pet_id])
 
-def update_image(pet_id, image):
+def update_image(image, pet_id):
     sql = "UPDATE pets SET image = ? WHERE id = ?"
     db.execute(sql, [image, pet_id])
 
@@ -44,6 +44,10 @@ def get_image(pet_id):
     sql = "SELECT image FROM pets WHERE id = ?"
     result = db.query(sql, [pet_id])
     return result[0][0] if result else None
+
+def remove_image(pet_id):
+    sql = "UPDATE pets SET image = null WHERE id = ?"
+    db.execute(sql, [pet_id])
 
 def add_message(content, user_id, pet_id):
     sql = """INSERT INTO messages (content, sent_at, user_id, pet_id)

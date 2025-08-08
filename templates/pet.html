@@ -11,11 +11,20 @@
   Rotu: {{pet.breed}}<br/>
   Lisännyt: <a href="/user/{{ pet.user_id }}">{{ pet.username }}</a><br/>
 
-  <!--{% if pet.has_image %}
-  <img src="/image/{{ pet.id }}" />
-  {% endif %}-->
-
+  <p>
+  {% if pet.has_image %}
+  <img src="/image_pet/{{ pet.id }}" width="150"/><br/>
+  {% endif %}
+  
   {% if pet.user_id == session.user_id %}
+  {% if pet.has_image %}
+  <a href="/pet/add_image/{{ pet.id }}">Vaihda kuva</a> | 
+  <a href="/remove/image_pet/{{ pet.id }}">Poista kuva</a>
+  {% else %}
+  <a href="/pet/add_image/{{ pet.id }}">Lisää kuva</a>
+  {% endif %}
+  </p>
+
   <p>
     <a href="/edit_pet/{{ pet.id }}">Muokkaa lemmikkiä</a> |
     <a href="/remove_pet/{{ pet.id }}">Poista lemmikki</a>

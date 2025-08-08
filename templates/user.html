@@ -1,10 +1,12 @@
   <h1>Käyttäjä {{ user.username }}</h1>
+  {% if user.has_image %}
+  <img src="/image_user/{{ user.id }}" width="150"/><br/>
+  {% endif %}
 
   {% if user.id == session.user_id %}
   {% if user.has_image %}
-  <img src="/image/{{ user.id }}" width="150"/><br/>
   <a href="/add_image_user">Vaihda kuva</a> | 
-  <a href="/remove/image/{{ user.id }}">Poista kuva</a>
+  <a href="/remove/image_user/{{ user.id }}">Poista kuva</a>
 
   {% else %}
   <a href="/add_image_user">Lisää kuva</a>

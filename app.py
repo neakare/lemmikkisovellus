@@ -71,6 +71,56 @@ def remove_pet(pet_id):
             petinfo.remove_all_messages(pet_id)
             petinfo.remove_pet(pet_id)
         return redirect("/")
+    
+@app.route("/pet/add_image/<int:pet_id>", methods=["GET", "POST"])
+def add_image_pet(pet_id):
+    require_login()
+    pet = petinfo.get_pet(pet_id)
+    if pet["user_id"] != session["user_id"]:
+            abort(403)
+
+    if request.method == "GET":
+        print("get")
+        return render_template("add_image_pet.html", pet=pet)
+
+    if request.method == "POST":
+        print("post")
+        file = request.files["image"]
+        if not file.filename.endswith(".jpg"):
+            return "VIRHE: väärä tiedostomuoto"
+
+        image = file.read()
+        if len(image) > 100 * 1024:
+            return "VIRHE: liian suuri kuva"
+
+        petinfo.update_image(image, pet_id)
+        return redirect("/pet/" + str(pet_id))
+
+@app.route("/image_pet/<int:pet_id>")
+def show_image_pet(pet_id):
+    image = petinfo.get_image(pet_id)
+
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
+    
+@app.route("/remove/image_pet/<int:pet_id>")
+def remove_image_pet(pet_id):
+    require_login()
+    pet = petinfo.get_pet(pet_id)
+    image = petinfo.get_image(pet_id)
+
+    if not image:
+        abort(404)
+    
+    if pet["user_id"] != session["user_id"]:
+        abort(403)
+    
+    petinfo.remove_image(pet_id)
+    return redirect("/pet/" + str(pet_id))
 
 @app.route("/new_message", methods=["POST"])
 def new_message():
@@ -186,9 +236,10 @@ def show_user(user_id):
 @app.route("/add_image_user", methods=["GET", "POST"])
 def add_image_user():
     require_login()
+    user = users.get_user(session["user_id"])
 
     if request.method == "GET":
-        return render_template("add_image_user.html")
+        return render_template("add_image_user.html", user=user)
 
     if request.method == "POST":
         file = request.files["image"]
@@ -203,7 +254,7 @@ def add_image_user():
         users.update_image(user_id, image)
         return redirect("/user/" + str(user_id))
 
-@app.route("/image/<int:user_id>")
+@app.route("/image_user/<int:user_id>")
 def show_image_user(user_id):
     image = users.get_image(user_id)
     if not image:
@@ -213,38 +264,8 @@ def show_image_user(user_id):
     response.headers.set("Content-Type", "image/jpeg")
     return response
 
-@app.route("/pet/add_image/<int:pet_id>", methods=["GET", "POST"])
-def add_image_pet(pet_id):
-    require_login()
-    pet = pet.get_pet(pet_id)
 
-    if request.method == "GET":
-        return render_template("add_image_pet.html")
-
-    if request.method == "POST":
-        file = request.files["image"]
-        if not file.filename.endswith(".jpg"):
-            return "VIRHE: väärä tiedostomuoto"
-
-        image = file.read()
-        if len(image) > 100 * 1024:
-            return "VIRHE: liian suuri kuva"
-
-        pet.user_id = session["user_id"]
-        petinfo.update_image(pet_id, image)
-        return redirect("/pet/" + str(pet_id))
-
-@app.route("/image/<int:pet_id>")
-def show_image_pet(pet_id):
-    image = petinfo.get_image(pet_id)
-    if not image:
-        abort(404)
-
-    response = make_response(bytes(image))
-    response.headers.set("Content-Type", "image/jpeg")
-    return response
-
-@app.route("/remove/image/<int:user_id>")
+@app.route("/remove/image_user/<int:user_id>")
 def remove_image_user(user_id):
     require_login()
     image = users.get_image(user_id)
