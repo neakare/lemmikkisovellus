@@ -2,25 +2,32 @@
 <html>
 
 <head>
-  <title>Rekisteröinti</title>
+  <title>Luo tunnus</title>
 </head>
 
 <body>
+  <h1>Luo tunnus</h1>
+  Jos sinulla on jo tunnus, <a href="/login">kirjaudu sisään</a>.<br/>
+  Tunnuksen ja salasanan on oltava 5-20 merkkiä pitkiä.
   <form action="/register" method="post">
     <p>
       Tunnus: <br />
-      <input type="text" name="username" maxlength="100"/>
+      <input type="text" name="username" minlength = "5" maxlength="20" required/>
     </p>
     <p>
       Salasana: <br />
-      <input type="password" name="password1"  maxlength="100"/>
+      <input type="password" name="password1" minlength = "5" maxlength="20" required/>
     </p>
     <p>
       Salasana uudestaan: <br />
-      <input type="password" name="password2"  maxlength="100"/>
+      <input type="password" name="password2" minlength = "5" maxlength="20" required/>
     </p>
     <input type="submit" value="Luo tunnus" />
   </form>
+  <p>
+    <a href="/">Etusivulle</a>
+  </p>
+
 </body>
 
 </html>
