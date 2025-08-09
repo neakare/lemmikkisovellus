@@ -1,7 +1,13 @@
   <form action="/edit/{{ message.id }}" method="post">
     <p>
-      Viesti:<br />
+      <h1>Muokkaa kommenttia lemmikille {{ pet.name }}</h1>
+      Kommentti on pakollinen kenttä, maksimipituus 5000 merkkiä.<br/><br/>
+      Kommentti:<br />
       <textarea name="content" rows="5" cols="40"  maxlength="5000" required>{{ message.content }}</textarea>
     </p>
     <input type="submit" value="Lähetä" />
+    <input type="submit" name="cancel" value="Peruuta" />
   </form>
+  <p>
+    <a href="/">Etusivulle</a>
+  </p>

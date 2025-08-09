@@ -43,8 +43,8 @@
   </p>
   {% if message.user_id == session.user_id %}
   <p>
-    <a href="/edit/{{ message.id }}">Muokkaa viestiä</a> |
-    <a href="/remove/{{ message.id }}">Poista viesti</a>
+    <a href="/edit/{{ message.id }}">Muokkaa kommenttia</a> |
+    <a href="/remove/{{ message.id }}">Poista kommentti</a>
   </p>
   {% endif %}
   <hr />
@@ -52,7 +52,7 @@
 
   {% if session.user_id %}
   <h3>Uusi kommentti</h3>
-
+  Kommentin sallittu pituus on 1-5000 merkkiä.
   <form action="/new_message" method="post">
     <p>
       Kommentti:<br />
