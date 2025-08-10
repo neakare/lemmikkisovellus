@@ -59,6 +59,7 @@ Tähdellä merkityt kentät ovat pakollisia.
     <input type="text" name="breed"  maxlength="100"/>
   </p>
 
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
 </form>
 {% endif %}

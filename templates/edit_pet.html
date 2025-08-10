@@ -13,6 +13,7 @@
     Rotu: <br />
     <textarea name="breed" maxlength="100">{{ pet.breed }}</textarea>
   </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Lähetä" />
   <p>
     <a href="/pet/{{ pet.id }}">Palaa lemmikin tietoihin</a> | <a href="/">Etusivulle</a>

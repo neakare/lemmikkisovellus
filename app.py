@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask
 from flask import redirect, render_template, request, session, abort, make_response
-import db, config, users, petinfo
+import db, config, users, petinfo, secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -22,6 +22,7 @@ def show_pet(pet_id):
 @app.route("/new_pet", methods=["POST"])
 def new_pet():
     require_login()
+    check_csrf()
     name = request.form["name"]
     species = request.form["species"]
     breed = request.form["breed"]
@@ -50,6 +51,7 @@ def edit_pet(pet_id):
         breed = request.form["breed"]
         if any(len(item) > 100 for item in (name, species, breed)):
             abort(403)
+        check_csrf()
         petinfo.update_pet(pet_id, name, species, breed)
         return redirect("/pet/" +  str(pet_id))
 
@@ -68,8 +70,11 @@ def remove_pet(pet_id):
 
     if request.method == "POST":
         if "continue" in request.form:
+            check_csrf()
             petinfo.remove_all_messages(pet_id)
             petinfo.remove_pet(pet_id)
+        elif "cancel" in request.form:
+            return redirect ("/pet/" +  str(pet_id))
         return redirect("/")
     
 @app.route("/pet/add_image/<int:pet_id>", methods=["GET", "POST"])
@@ -84,7 +89,6 @@ def add_image_pet(pet_id):
         return render_template("add_image_pet.html", pet=pet)
 
     if request.method == "POST":
-        print("post")
         file = request.files["image"]
         if not file.filename.endswith(".jpg"):
             return "VIRHE: väärä tiedostomuoto"
@@ -92,7 +96,8 @@ def add_image_pet(pet_id):
         image = file.read()
         if len(image) > 100 * 1024:
             return "VIRHE: liian suuri kuva"
-
+        
+        check_csrf()
         petinfo.update_image(image, pet_id)
         return redirect("/pet/" + str(pet_id))
 
@@ -118,13 +123,15 @@ def remove_image_pet(pet_id):
     
     if pet["user_id"] != session["user_id"]:
         abort(403)
-    
+
+    #check_csrf()
     petinfo.remove_image(pet_id)
     return redirect("/pet/" + str(pet_id))
 
 @app.route("/new_message", methods=["POST"])
 def new_message():
     require_login()
+    check_csrf()
     content = request.form["content"]
     user_id = session["user_id"]
     pet_id = request.form["pet_id"]
@@ -138,6 +145,7 @@ def new_message():
 def edit_message(message_id):
     require_login()
     message = petinfo.get_message(message_id)
+    pet = petinfo.get_pet(message["pet_id"])
     if not message:
         abort(404)
     
@@ -145,12 +153,13 @@ def edit_message(message_id):
         abort(403)
 
     if request.method == "GET":
-        return render_template("edit.html", message=message)
+        return render_template("edit.html", message=message, pet=pet)
 
     if request.method == "POST":
         content = request.form["content"]
-        if len(content) > 5000:
+        if len(content) >=0 and len (content)> 5000:
             abort(403)
+        check_csrf()
         petinfo.update_message(message["id"], content)
         return redirect("/pet/" + str(message["pet_id"]))
 
@@ -169,6 +178,7 @@ def remove_message(message_id):
 
     if request.method == "POST":
         if "continue" in request.form:
+            check_csrf()
             petinfo.remove_message(message["id"])
         return redirect("/pet/" + str(message["pet_id"]))
 
@@ -204,6 +214,7 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             return "VIRHE: väärä tunnus tai salasana"
@@ -251,6 +262,7 @@ def add_image_user():
             return "VIRHE: liian suuri kuva"
 
         user_id = session["user_id"]
+        check_csrf()
         users.update_image(user_id, image)
         return redirect("/user/" + str(user_id))
 
@@ -274,6 +286,11 @@ def remove_image_user(user_id):
     
     if user_id != session["user_id"]:
         abort(403)
-    
+
+    #check_csrf()
     users.remove_image(user_id)
     return redirect("/user/" + str(user_id))
+
+def check_csrf():
+    if request.form["csrf_token"] != session["csrf_token"]:
+        abort(403)

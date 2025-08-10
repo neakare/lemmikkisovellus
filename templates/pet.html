@@ -59,6 +59,7 @@
       <textarea name="content" rows="5" cols="40"  maxlength="5000" required></textarea>
     </p>
     <input type="hidden" name="pet_id" value="{{ pet.id }}" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
   </form>
   <hr />

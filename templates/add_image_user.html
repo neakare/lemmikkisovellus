@@ -4,6 +4,7 @@
       Kuvan tulee olla kooltaan alle 100 kt ja .jpg -muotoinen.<br/><br/>
       Kuva: <input type="file" name="image" accept=".jpg" />
     </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
     <p>
     <a href="/user/{{ user.id }}">Palaa käyttäjän tietoihin</a> | <a href="/">Etusivulle</a>
