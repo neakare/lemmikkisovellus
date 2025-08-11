@@ -1,13 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Lemmikkisovellus{% endblock %}
+
+{% block content %}
  <form action="/pet/add_image/{{ pet.id }}" method="post" enctype="multipart/form-data">
     <p>
-        <h1>Lisää kuva lemmikille {{ pet.name }}</h1>
+        <h2>Lisää kuva lemmikille {{ pet.name }}</h2>
         Kuvan tulee olla kooltaan alle 100 kt ja .jpg -muotoinen.<br/><br/>
       Kuva: <input type="file" name="image" accept=".jpg" />
     </p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" value="Lähetä" />
+    <input type="submit" name="continue" value="Lähetä" />
+    <input type="submit" name="cancel" value="Palaa lemmikin tietoihin" />
 
-     <p>
-    <a href="/pet/{{ pet.id }}">Palaa lemmikin tietoihin</a> | <a href="/">Etusivulle</a>
-  </p>
+
   </form>
+
+{% endblock %}

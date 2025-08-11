@@ -1,30 +1,19 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Lemmikkisovellus</title>
-</head>
+{% block title %}Lemmikkisovellus{% endblock %}
 
-<body>
-  <p>
-    <h1>Tervetuloa lemmikkisovellukseen!</h1>
-  </p>
+{% block content %}
+<h2>Kaikki sovelluksen lemmikit</h2>
 
-<p>
-    {% if session.user_id %}
-    Olet kirjautunut sisään käyttäjänimellä {{session.username}} <br/>
-    <a href="/logout">Kirjaudu ulos</a><br/>
-    {% else %}
-    <a href="/register">Luo tunnus</a> |
-    <a href="/login">Kirjaudu sisään</a>
-    {% endif %}
-    <hr />
-    <a href="/search">Haku</a>
-  </p>
-  <hr />
+{% for message in get_flashed_messages() %}
+<p class="info">
+  {{ message }}
+</p>
+{% endfor %}
 
-  <h2>Kaikki sovelluksen lemmikit</h2>
+
 {% for pet in pets %}
+<div class="pet">
   <p>
     <a href="/pet/{{ pet.id }}">{{ pet.name }}</a>
     <br />
@@ -38,11 +27,11 @@
 
     {% endif %}
   </p>
-  <hr />
+  </div>
   {% endfor %}
 
 {% if session.user_id %}
-<h2>Lisää lemmikki</h2>
+<h3>Lisää lemmikki</h3>
 Tähdellä merkityt kentät ovat pakollisia.
 
 <form action="/new_pet" method="post">
@@ -64,7 +53,4 @@ Tähdellä merkityt kentät ovat pakollisia.
 </form>
 {% endif %}
 
-
-</body>
-
-</html>
+{% endblock %}

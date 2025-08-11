@@ -89,16 +89,18 @@ def add_image_pet(pet_id):
         return render_template("add_image_pet.html", pet=pet)
 
     if request.method == "POST":
-        file = request.files["image"]
-        if not file.filename.endswith(".jpg"):
-            return "VIRHE: väärä tiedostomuoto"
+        if "continue" in request.form:
+            file = request.files["image"]
+            if not file.filename.endswith(".jpg"):
+                return "VIRHE: väärä tiedostomuoto"
 
-        image = file.read()
-        if len(image) > 100 * 1024:
-            return "VIRHE: liian suuri kuva"
+            image = file.read()
+            if len(image) > 100 * 1024:
+                return "VIRHE: liian suuri kuva"
+            
+            check_csrf()
+            petinfo.update_image(image, pet_id)
         
-        check_csrf()
-        petinfo.update_image(image, pet_id)
         return redirect("/pet/" + str(pet_id))
 
 @app.route("/image_pet/<int:pet_id>")
@@ -253,17 +255,19 @@ def add_image_user():
         return render_template("add_image_user.html", user=user)
 
     if request.method == "POST":
-        file = request.files["image"]
-        if not file.filename.endswith(".jpg"):
-            return "VIRHE: väärä tiedostomuoto"
-
-        image = file.read()
-        if len(image) > 100 * 1024:
-            return "VIRHE: liian suuri kuva"
-
         user_id = session["user_id"]
         check_csrf()
-        users.update_image(user_id, image)
+        if "continue" in request.form:
+            file = request.files["image"]
+            if not file.filename.endswith(".jpg"):
+                return "VIRHE: väärä tiedostomuoto"
+
+            image = file.read()
+            if len(image) > 100 * 1024:
+                return "VIRHE: liian suuri kuva"
+
+            users.update_image(user_id, image)
+        
         return redirect("/user/" + str(user_id))
 
 @app.route("/image_user/<int:user_id>")
