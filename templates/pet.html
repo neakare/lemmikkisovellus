@@ -35,7 +35,7 @@
   <hr />
   <h3>Kommentit</h3>
   {% for message in messages %}
-  <p>
+  <p id="{{ message.id }}">
     <a href="/user/{{ message.user_id }}">{{ message.username }}</a> ({{ message.sent_at }}):
   </p>
   <p>
