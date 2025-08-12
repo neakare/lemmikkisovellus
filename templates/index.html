@@ -47,6 +47,24 @@ Tähdellä merkityt kentät ovat pakollisia.
     Rotu: <br />
     <input type="text" name="breed"  maxlength="100"/>
   </p>
+    <p>
+    <label for="activity">Aktiivisuustaso*: </label>
+    <select name="activity" id="activity" required/>
+    <option value="" selected disabled hidden>Valitse aktiivisuustaso</option>
+    {% for activity in activities %}
+    <option value="{{ activity.id }}">{{ activity.activity }}</option>
+    {% endfor %}
+  </select>
+  </p>
+     <p>
+    <label for="appetite">Ruokahalu*: </label>
+    <select name="appetite" id="appetite" required/>
+    <option value="" selected disabled hidden>Valitse ruokahalun määrä</option>
+    {% for appetite in appetites %}
+    <option value="{{ appetite.id }}">{{ appetite.appetite }}</option>
+    {% endfor %}
+  </select>
+  </p>
 
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />

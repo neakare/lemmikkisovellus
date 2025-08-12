@@ -10,27 +10,52 @@ def get_pets():
              ORDER BY p.id DESC"""
     return db.query(sql)
 
+def get_activities():
+    sql = """SELECT id, activity
+             FROM activity
+             ORDER BY id DESC"""
+    return db.query(sql)
+
+def get_appetites():
+    sql = """SELECT id, appetite
+             FROM appetite
+             ORDER BY id DESC"""
+    return db.query(sql)
+
 def get_pet(pet_id):
-    sql = """SELECT p.id, p.name, p.species, p.breed, u.username, p.user_id, p.image IS NOT NULL has_image 
-             FROM pets p, users u 
-             WHERE p.id = ? AND
-             p.user_id = u.id"""
+    sql = """SELECT p.id, 
+                p.name, 
+                p.species, 
+                p.breed, 
+                u.username, 
+                p.user_id, 
+                p.image IS NOT NULL has_image,
+                ap.appetite,
+                ac.activity
+            FROM pets p, users u, appetite ap, activity ac 
+            WHERE p.id = ? AND
+                p.user_id = u.id AND
+                p.activity_id = ac.id AND
+                p.appetite_id = ap.id
+            """
     result = db.query(sql, [pet_id])
     return result[0] if result else None
 
-def add_pet(name, species, breed, user_id):
-    sql = "INSERT INTO pets (name, species, breed, user_id) VALUES (?, ?, ?, ?)"
-    db.execute(sql, [name, species, breed, user_id])
+def add_pet(name, species, breed, user_id, activity_id, appetite_id):
+    sql = "INSERT INTO pets (name, species, breed, user_id, activity_id, appetite_id) VALUES (?, ?, ?, ?, ?, ?)"
+    db.execute(sql, [name, species, breed, user_id, activity_id, appetite_id])
     pet_id = db.last_insert_id()
     return pet_id
 
-def update_pet(pet_id, name, species, breed):
+def update_pet(pet_id, name, species, breed, activity_id, appetite_id):
     sql = """UPDATE pets 
              SET name = ?, 
                  species = ?,
-                 breed = ?
+                 breed = ?,
+                 activity_id = ?,
+                 appetite_id = ?
              WHERE id = ?"""
-    db.execute(sql, [name, species, breed, pet_id])
+    db.execute(sql, [name, species, breed, activity_id, appetite_id, pet_id])
 
 def remove_pet(pet_id):
     sql = "DELETE FROM pets WHERE id = ?"

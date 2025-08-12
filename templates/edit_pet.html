@@ -1,18 +1,52 @@
 <form action="/edit_pet/{{ pet.id }}" method="post">
   <p>
-    <h1>Muokkaa lemmikin {{ pet.name }} tietoja</h1>
-    Tähdellä merkityt kentät ovat pakollisia. <br/><br/>
+    <h2>Muokkaa lemmikin {{ pet.name }} tietoja</h2>
+
+    Tähdellä merkityt kentät ovat pakollisia. 
+  </p>
+
+  <p>
     Nimi*: <br />
     <textarea name="name" maxlength="50" required>{{ pet.name }}</textarea>
   </p>
+
   <p>
     Eläinlaji*: <br />
     <textarea name="species" maxlength="100" required>{{ pet.species }}</textarea>
   </p>
+
   <p>
     Rotu: <br />
     <textarea name="breed" maxlength="100">{{ pet.breed }}</textarea>
   </p>
+
+   <p>
+    <label for="activity">Aktiivisuustaso*: </label>
+    <select name="activity" id="activity" required/>
+    {% for activity in activities %}
+    {% if activity.activity == pet.activity %}
+    <option value="{{ activity.id }}" selected>{{ activity.activity }}</option>
+    {% else %}
+    <option value="{{ activity.id }}">{{ activity.activity }}</option>
+    {% endif %}
+    {% endfor %}
+    </select>
+  </p>
+
+  <p>
+    <label for="appetite">Ruokahalu*: </label>
+    <select name="appetite" id="appetite" required/>
+    {% for appetite in appetites %}
+    {% if appetite.appetite == pet.appetite %}
+    <option value="{{ appetite.id }}" selected>{{ appetite.appetite }}</option>
+    {% else %}
+    <option value="{{ appetite.id }}">{{ appetite.appetite }}</option>
+    {% endif %}
+    {% endfor %}
+    </select>
+  </p>
+
+
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Lähetä" />
   <p>

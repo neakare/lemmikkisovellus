@@ -11,19 +11,37 @@ CREATE TABLE pets (
     species TEXT,
     breed TEXT,
     image BLOB,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
+    activity_id INTEGER REFERENCES activity,
+    appetite_id INTEGER REFERENCES appetite
 );
 
 
-CREATE TABLE characteristics (
+CREATE TABLE activity (
     id INTEGER PRIMARY KEY,
-    characteristic TEXT
+    activity TEXT
 );
 
-CREATE TABLE pet_characteristics (
-    pet_id INTEGER REFERENCES pets,
-    characteristic_id REFERENCES characteristics
+INSERT INTO activity (activity) VALUES 
+('erittäin vilkas'), 
+('vilkas'), 
+('tavallinen'), 
+('laiska'), 
+('erittäin laiska')
+;
+
+CREATE TABLE appetite (
+    id INTEGER PRIMARY KEY,
+    appetite TEXT
 );
+
+INSERT INTO appetite (appetite) VALUES 
+('erittäin ahne'),
+('ahne'),
+('tavallinen'),
+('nirso'),
+('erittäin nirso')
+;
 
 
 CREATE TABLE messages (

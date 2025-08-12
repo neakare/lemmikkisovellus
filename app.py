@@ -9,7 +9,9 @@ app.secret_key = config.secret_key
 @app.route("/")
 def index():
     pets = petinfo.get_pets()
-    return render_template("index.html", pets=pets)
+    activities = petinfo.get_activities()
+    appetites = petinfo.get_appetites()
+    return render_template("index.html", pets=pets, activities = activities, appetites = appetites)
 
 @app.route("/pet/<int:pet_id>")
 def show_pet(pet_id):
@@ -27,15 +29,20 @@ def new_pet():
     species = request.form["species"]
     breed = request.form["breed"]
     user_id = session["user_id"]
+    activity_id = request.form["activity"]
+    appetite_id = request.form["appetite"]
     if not name or any(len(item) > 100 for item in (name, species, breed)):
         abort(403)
-    pet_id = petinfo.add_pet(name, species, breed, user_id)
+    pet_id = petinfo.add_pet(name, species, breed, user_id, activity_id, appetite_id)
     return redirect("/pet/" + str(pet_id))
 
 @app.route("/edit_pet/<int:pet_id>", methods=["GET", "POST"])
 def edit_pet(pet_id):
     require_login()
     pet = petinfo.get_pet(pet_id)
+    activities = petinfo.get_activities()
+    appetites = petinfo.get_appetites()
+
     if not pet:
         abort(404)
     
@@ -43,16 +50,18 @@ def edit_pet(pet_id):
         abort(403)
 
     if request.method == "GET":
-        return render_template("edit_pet.html", pet=pet)
+        return render_template("edit_pet.html", pet=pet, activities = activities, appetites = appetites)
 
     if request.method == "POST":
         name = request.form["name"]
         species = request.form["species"]
         breed = request.form["breed"]
-        if any(len(item) > 100 for item in (name, species, breed)):
+        activity_id = request.form["activity"]
+        appetite_id = request.form["appetite"]
+        if any(len(item) > 100 for item in (name, species, breed, activity_id, appetite_id)):
             abort(403)
         check_csrf()
-        petinfo.update_pet(pet_id, name, species, breed)
+        petinfo.update_pet(pet_id, name, species, breed, activity_id, appetite_id)
         return redirect("/pet/" +  str(pet_id))
 
 @app.route("/remove_pet/<int:pet_id>", methods=["GET", "POST"])
