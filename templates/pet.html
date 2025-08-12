@@ -5,6 +5,12 @@
   <title>{{ pet.name }}</title>
 </head>
 
+{% for message in get_flashed_messages() %}
+<p class="info">
+  <b>{{ message }}</b>
+</p>
+{% endfor %}
+
 <body>
   <h1>{{ pet.name }}</h1>
   Eläinlaji: {{pet.species}}<br />

@@ -6,6 +6,13 @@
 </head>
 <body>
   <h1>Kirjaudu sisään</h1>
+
+  {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+  
   Voit luoda tunnuksen <a href="/register">täällä</a>.
   <form action="/login" method="post">
     <p>

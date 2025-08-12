@@ -7,20 +7,26 @@
 
 <body>
   <h1>Luo tunnus</h1>
+  {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+
   Jos sinulla on jo tunnus, <a href="/login">kirjaudu sisään</a>.<br/>
-  Tunnuksen ja salasanan on oltava 5-20 merkkiä pitkiä.
+  Tunnuksen ja salasanan on oltava 5-16 merkkiä pitkiä.
   <form action="/register" method="post">
     <p>
       Tunnus: <br />
-      <input type="text" name="username" minlength = "5" maxlength="20" required/>
+      <input type="text" name="username" value="{{ filled.username }}" minlength = "5" maxlength="16" required/>
     </p>
     <p>
       Salasana: <br />
-      <input type="password" name="password1" minlength = "5" maxlength="20" required/>
+      <input type="password" name="password1" minlength = "5" maxlength="16" required/>
     </p>
     <p>
       Salasana uudestaan: <br />
-      <input type="password" name="password2" minlength = "5" maxlength="20" required/>
+      <input type="password" name="password2" minlength = "5" maxlength="16" required/>
     </p>
     <input type="submit" value="Luo tunnus" />
   </form>

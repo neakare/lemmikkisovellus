@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session, abort, make_response
+from flask import redirect, render_template, request, session, abort, make_response, flash
 import db, config, users, petinfo, secrets
 
 app = Flask(__name__)
@@ -62,6 +62,7 @@ def edit_pet(pet_id):
             abort(403)
         check_csrf()
         petinfo.update_pet(pet_id, name, species, breed, activity_id, appetite_id)
+        flash("Tietojen päivittäminen onnistui")
         return redirect("/pet/" +  str(pet_id))
 
 @app.route("/remove_pet/<int:pet_id>", methods=["GET", "POST"])
@@ -82,6 +83,7 @@ def remove_pet(pet_id):
             check_csrf()
             petinfo.remove_all_messages(pet_id)
             petinfo.remove_pet(pet_id)
+            flash("Lemmikin poistaminen onnistui")
         elif "cancel" in request.form:
             return redirect ("/pet/" +  str(pet_id))
         return redirect("/")
@@ -94,21 +96,24 @@ def add_image_pet(pet_id):
             abort(403)
 
     if request.method == "GET":
-        print("get")
         return render_template("add_image_pet.html", pet=pet)
 
     if request.method == "POST":
         if "continue" in request.form:
             file = request.files["image"]
+
             if not file.filename.endswith(".jpg"):
-                return "VIRHE: väärä tiedostomuoto"
+                flash("VIRHE: Lähettämäsi tiedosto ei ole jpg-tiedosto")
+                return redirect("/pet/add_image/" + str(pet_id))
 
             image = file.read()
             if len(image) > 100 * 1024:
-                return "VIRHE: liian suuri kuva"
+                flash("VIRHE: Lähettämäsi tiedosto on liian suuri")
+                return redirect("/pet/add_image/" + str(pet_id))
             
             check_csrf()
             petinfo.update_image(image, pet_id)
+            flash("Kuvan lisääminen onnistui")
         
         return redirect("/pet/" + str(pet_id))
 
@@ -137,6 +142,7 @@ def remove_image_pet(pet_id):
 
     #check_csrf()
     petinfo.remove_image(pet_id)
+    flash("Kuvan poistaminen onnistui")
     return redirect("/pet/" + str(pet_id))
 
 @app.route("/new_message", methods=["POST"])
@@ -172,6 +178,7 @@ def edit_message(message_id):
             abort(403)
         check_csrf()
         petinfo.update_message(message["id"], content)
+        flash("Kommentin päivittäminen onnistui")
         return redirect("/pet/" + str(message["pet_id"]))
 
 @app.route("/remove/<int:message_id>", methods=["GET", "POST"])
@@ -191,26 +198,35 @@ def remove_message(message_id):
         if "continue" in request.form:
             check_csrf()
             petinfo.remove_message(message["id"])
+            flash("Kommentin poistaminen onnistui")
         return redirect("/pet/" + str(message["pet_id"]))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("register.html", filled={})
 
     if request.method == "POST":
         username = request.form["username"]
+        if len(username) > 16:
+            abort(403)
         password1 = request.form["password1"]
         password2 = request.form["password2"]
 
-        if password1 != password2:
-            return "VIRHE: salasanat eivät ole samat"
+        if password1 != password2: 
+            flash("VIRHE: Antamasi salasanat eivät ole samat") 
+            filled = {"username": username} 
+            return render_template("register.html", filled=filled)
 
         try:
             users.create_user(username, password1)
+            flash("Tunnuksen luominen onnistui, voit nyt kirjautua sisään")
             return redirect("/login")
-        except sqlite3.IntegrityError:
-            return "VIRHE: tunnus on jo varattu"
+        
+        except: 
+            flash("VIRHE: Valitsemasi tunnus on jo varattu")
+            filled = {"username": username}
+            return render_template("register.html", filled=filled)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -226,9 +242,11 @@ def login():
             session["user_id"] = user_id
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
+            flash("Sisäänkirjautuminen onnistui")
             return redirect("/")
         else:
-            return "VIRHE: väärä tunnus tai salasana"
+            flash("VIRHE: väärä tunnus tai salasana")
+            return redirect ("/login")
     
 @app.route("/logout")
 def logout():
@@ -269,13 +287,16 @@ def add_image_user():
         if "continue" in request.form:
             file = request.files["image"]
             if not file.filename.endswith(".jpg"):
-                return "VIRHE: väärä tiedostomuoto"
+                flash("VIRHE: väärä tiedostomuoto")
+                return redirect ("/add_image_user")
 
             image = file.read()
             if len(image) > 100 * 1024:
-                return "VIRHE: liian suuri kuva"
+                flash("VIRHE: liian suuri kuva")
+                return redirect ("/add_image_user")
 
             users.update_image(user_id, image)
+            flash("Kuvan lisääminen onnistui")
         
         return redirect("/user/" + str(user_id))
 
@@ -302,6 +323,7 @@ def remove_image_user(user_id):
 
     #check_csrf()
     users.remove_image(user_id)
+    flash("Kuvan poistaminen onnistui")
     return redirect("/user/" + str(user_id))
 
 def check_csrf():
