@@ -5,6 +5,7 @@
 {% block content %}
 
 <h2>Käyttäjä {{ user.username }}</h2>
+
   {% for message in get_flashed_messages() %}
   <p class="info">
     <b>{{ message }}</b>

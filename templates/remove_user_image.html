@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}Lemmikkisovellus{% endblock %}
+
+{% block content %}
+
+  <h2>Poista käyttäjän {{ user.username }} kuva</h2>
+
+  {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+  
+  <form action="/remove/image_user/{{ user.id }}" method="post">
+
+    <p>
+      Haluatko varmasti poistaa kuvan?
+    </p>
+    </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" name="continue" value="Poista kuva" />
+    <input type="submit" name="cancel" value="Palaa käyttäjän tietoihin" />
+  </form>
+
+
+
+{% endblock %}
