@@ -21,7 +21,7 @@
 
   <p>
   {% if pet.has_image %}
-  <img src="/image_pet/{{ pet.id }}" width="150"/><br/>
+  <img src="/image_pet/{{ pet.id }}" width="150" alt="Lemmikin {{ pet.name }} kuva"/><br/>
   {% endif %}
   
   {% if pet.user_id == session.user_id %}

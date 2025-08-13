@@ -6,7 +6,7 @@
 {% endfor %}
 
 {% if user.has_image %}
-  <img src="/image_user/{{ user.id }}" width="150"/><br/>
+  <img src="/image_user/{{ user.id }}" width="150" alt="Käyttäjän {{ user.username }} kuva"/><br/>
   {% endif %}
 
   {% if user.id == session.user_id %}
