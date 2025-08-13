@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Haku</title>
-</head>
+{% block title %}Lemmikkisovellus{% endblock %}
 
-<body>
-  <h1>Haku</h1>
+{% block content %}
+
+  <h2>Haku</h2>
+
+  {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
 
   <form action="/search" method="get">
     <p>
@@ -57,10 +61,5 @@
   {% endfor %}
   </ul>
   {% endif %}
-<hr />
-  <p>
-    <a href="/">Etusivulle</a>
-  </p>
-</body>
 
-</html>
+{% endblock %}

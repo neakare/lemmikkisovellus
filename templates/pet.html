@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>{{ pet.name }}</title>
-</head>
+{% block title %}Lemmikkisovellus{% endblock %}
+
+{% block content %}
 
 {% for message in get_flashed_messages() %}
 <p class="info">
@@ -11,8 +10,7 @@
 </p>
 {% endfor %}
 
-<body>
-  <h1>{{ pet.name }}</h1>
+  <h2>{{ pet.name }}</h2>
   Eläinlaji: {{pet.species}}<br />
   Rotu: {{pet.breed}}<br/>
   Aktiivisuustaso: {{pet.activity}}<br/>
@@ -43,6 +41,7 @@
   <hr />
   <h3>Kommentit</h3>
   {% for message in messages %}
+  <div class="pet">
   <p id="{{ message.id }}">
     <a href="/user/{{ message.user_id }}">{{ message.username }}</a> ({{ message.sent_at }}):
   </p>
@@ -55,7 +54,7 @@
     <a href="/remove/{{ message.id }}">Poista kommentti</a>
   </p>
   {% endif %}
-  <hr />
+  </div>
   {% endfor %}
 
   {% if session.user_id %}
@@ -63,21 +62,13 @@
   Kommentin sallittu pituus on 1-5000 merkkiä.
   <form action="/new_message" method="post">
     <p>
-      Kommentti:<br />
+      <label for="content">Kommentti</label>:<br />
       <textarea name="content" rows="5" cols="40"  maxlength="5000" required></textarea>
     </p>
     <input type="hidden" name="pet_id" value="{{ pet.id }}" />
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Lähetä" />
   </form>
-  <hr />
   {% endif %}
 
-  <p>
-    <a href="/">Etusivulle</a> <br/>
-    <a href="/login">Kirjaudu</a>
-
-  </p>
-</body>
-
-</html>
+  {% endblock %}

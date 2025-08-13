@@ -1,6 +1,19 @@
-  <form action="/edit/{{ message.id }}" method="post">
+{% extends "layout.html" %}
+
+{% block title %}Lemmikkisovellus{% endblock %}
+
+{% block content %}
+
+<form action="/edit/{{ message.id }}" method="post">
     <p>
-      <h1>Muokkaa kommenttia lemmikille {{ pet.name }}</h1>
+      <h2>Muokkaa kommenttia lemmikille {{ pet.name }}</h2>
+
+      {% for message in get_flashed_messages() %}
+      <p class="info">
+        {{ message }}
+      </p>
+      {% endfor %}
+
       Kommentti on pakollinen kenttä, maksimipituus 5000 merkkiä.<br/><br/>
       Kommentti:<br />
       <textarea name="content" rows="5" cols="40"  maxlength="5000" required>{{ message.content }}</textarea>
@@ -9,6 +22,5 @@
     <input type="submit" value="Lähetä" />
     <input type="submit" name="cancel" value="Peruuta" />
   </form>
-  <p>
-    <a href="/">Etusivulle</a>
-  </p>
+
+  {% endblock %}

@@ -1,6 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}Lemmikkisovellus{% endblock %}
+
+{% block content %}
+
 <form action="/edit_pet/{{ pet.id }}" method="post">
   <p>
     <h2>Muokkaa lemmikin {{ pet.name }} tietoja</h2>
+
+    {% for message in get_flashed_messages() %}
+      <p class="info">
+        {{ message }}
+      </p>
+      {% endfor %}
 
     Tähdellä merkityt kentät ovat pakollisia. 
   </p>
@@ -50,6 +62,8 @@
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Lähetä" />
   <p>
-    <a href="/pet/{{ pet.id }}">Palaa lemmikin tietoihin</a> | <a href="/">Etusivulle</a>
+    <a href="/pet/{{ pet.id }}">Palaa lemmikin tietoihin</a>
   </p>
 </form>
+
+{% endblock %}

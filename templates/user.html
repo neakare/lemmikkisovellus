@@ -1,4 +1,10 @@
-  <h1>Käyttäjä {{ user.username }}</h1>
+  {% extends "layout.html" %}
+
+{% block title %}Lemmikkisovellus{% endblock %}
+
+{% block content %}
+
+<h2>Käyttäjä {{ user.username }}</h2>
   {% for message in get_flashed_messages() %}
   <p class="info">
     <b>{{ message }}</b>
@@ -57,9 +63,7 @@
   {% endfor %}
   </ul>
 
-  <p>
-    <a href="/">Etusivulle</a>
-  </p>
+{% endblock %}
 
 
 

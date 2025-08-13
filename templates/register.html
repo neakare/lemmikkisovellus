@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Luo tunnus</title>
-</head>
+{% block title %}Lemmikkisovellus{% endblock %}
 
-<body>
-  <h1>Luo tunnus</h1>
+{% block content %}
+
+  <h2>Luo tunnus</h2>
   {% for message in get_flashed_messages() %}
   <p class="info">
     <b>{{ message }}</b>
@@ -30,10 +28,6 @@
     </p>
     <input type="submit" value="Luo tunnus" />
   </form>
-  <p>
-    <a href="/">Etusivulle</a>
-  </p>
 
-</body>
 
-</html>
+{% endblock %}

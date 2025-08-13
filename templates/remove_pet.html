@@ -1,5 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}Lemmikkisovellus{% endblock %}
+
+{% block content %}
+
 <form action="/remove_pet/{{ pet.id }}" method="post">
-    <h1>Poista lemmikki {{ pet.name }}</h1>
+    <h2>Poista lemmikki {{ pet.name }}</h2>
+
+    {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+  
     <p>
       Haluatko varmasti poistaa lemmikin {{ pet.name }}?
     </p>
@@ -7,6 +20,6 @@
     <input type="submit" name="continue" value="Jatka" />
     <input type="submit" name="cancel" value="Peruuta" />
   </form>
-  <p>
-    <a href="/">Etusivulle</a>
-  </p>
+
+
+  {% endblock %}

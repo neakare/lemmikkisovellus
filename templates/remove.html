@@ -1,5 +1,18 @@
-<form action="/remove/{{ message.id }}" method="post">
-    <h1>Poista kommentti</h1>
+{% extends "layout.html" %}
+
+{% block title %}Lemmikkisovellus{% endblock %}
+
+{% block content %}
+
+  <h2>Poista kommentti</h2>
+  {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+  
+  <form action="/remove/{{ message.id }}" method="post">
+
     <p>
       Haluatko varmasti poistaa kommentin?
     </p>
@@ -10,6 +23,7 @@
     <input type="submit" name="continue" value="Poista kommentti" />
     <input type="submit" name="cancel" value="Palaa lemmikin tietoihin" />
   </form>
-  <p>
-    <a href="/">Etusivulle</a>
-  </p>
+
+
+
+{% endblock %}
