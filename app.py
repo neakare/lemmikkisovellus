@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask
 from flask import redirect, render_template, request, session, abort, make_response, flash
-import db, config, users, petinfo, secrets
+import db, config, users, petinfo, secrets, markupsafe
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -330,3 +330,9 @@ def remove_image_user(user_id):
 def check_csrf():
     if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
+
+@app.template_filter()
+def show_lines(content):
+    content = str(markupsafe.escape(content))
+    content = content.replace("\n", "<br />")
+    return markupsafe.Markup(content)
