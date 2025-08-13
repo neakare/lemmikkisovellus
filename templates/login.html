@@ -23,6 +23,13 @@
       Salasana: <br />
       <input type="password" name="password"  minlength = "5" maxlength="20" required/>
     </p>
+
+    {% if next_page %}
+    <input type="hidden" name="next_page" value="{{ next_page }}" />
+    {% else %}
+    <input type="hidden" name="next_page" value="/" />
+    {% endif %}
+    
     <input type="submit" value="Kirjaudu" />
   </form>
 

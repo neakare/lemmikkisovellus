@@ -231,11 +231,12 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login.html", next_page=request.referrer)
 
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        next_page = request.form["next_page"]
 
         user_id = users.check_login(username, password)
         if user_id:
@@ -243,10 +244,10 @@ def login():
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
             flash("Sisäänkirjautuminen onnistui")
-            return redirect("/")
+            return redirect(next_page)
         else:
             flash("VIRHE: väärä tunnus tai salasana")
-            return redirect ("/login")
+            return render_template("login.html", next_page=next_page)
     
 @app.route("/logout")
 def logout():
