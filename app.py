@@ -58,7 +58,7 @@ def edit_pet(pet_id):
         breed = request.form["breed"]
         activity_id = request.form["activity"]
         appetite_id = request.form["appetite"]
-        if any(len(item) > 100 for item in (name, species, breed, activity_id, appetite_id)):
+        if any(len(item) > 40 for item in (name, species, breed, activity_id, appetite_id)):
             abort(403)
         check_csrf()
         petinfo.update_pet(pet_id, name, species, breed, activity_id, appetite_id)
@@ -128,7 +128,7 @@ def show_image_pet(pet_id):
     response.headers.set("Content-Type", "image/jpeg")
     return response
     
-@app.route("/remove/image_pet/<int:pet_id>")
+@app.route("/remove/image_pet/<int:pet_id>", methods=["GET", "POST"])
 def remove_image_pet(pet_id):
     require_login()
     pet = petinfo.get_pet(pet_id)
@@ -140,10 +140,16 @@ def remove_image_pet(pet_id):
     if pet["user_id"] != session["user_id"]:
         abort(403)
 
-    #check_csrf()
-    petinfo.remove_image(pet_id)
-    flash("Kuvan poistaminen onnistui")
-    return redirect("/pet/" + str(pet_id))
+    if request.method == "GET":
+        return render_template("remove_pet_image.html", pet=pet)
+
+    if request.method == "POST":
+        if "continue" in request.form:
+            check_csrf()
+            petinfo.remove_image(pet_id)
+            flash("Kuvan poistaminen onnistui")
+        
+        return redirect ("/pet/" +  str(pet_id))
 
 @app.route("/new_message", methods=["POST"])
 def new_message():
@@ -288,12 +294,12 @@ def add_image_user():
         if "continue" in request.form:
             file = request.files["image"]
             if not file.filename.endswith(".jpg"):
-                flash("VIRHE: väärä tiedostomuoto")
+                flash("VIRHE: Lähettämäsi tiedosto ei ole jpg-tiedosto")
                 return redirect ("/add_image_user")
 
             image = file.read()
             if len(image) > 100 * 1024:
-                flash("VIRHE: liian suuri kuva")
+                flash("VIRHE: Lähettämäsi tiedosto on liian suuri")
                 return redirect ("/add_image_user")
 
             users.update_image(user_id, image)
@@ -312,20 +318,33 @@ def show_image_user(user_id):
     return response
 
 
-@app.route("/remove/image_user/<int:user_id>")
+@app.route("/remove/image_user/<int:user_id>", methods=["GET", "POST"])
 def remove_image_user(user_id):
     require_login()
     image = users.get_image(user_id)
+    user_id = session["user_id"]
+    user = users.get_user(user_id)
+
     if not image:
         abort(404)
     
     if user_id != session["user_id"]:
         abort(403)
 
-    #check_csrf()
-    users.remove_image(user_id)
-    flash("Kuvan poistaminen onnistui")
-    return redirect("/user/" + str(user_id))
+    if request.method == "GET":
+        return render_template("remove_user_image.html", user=user)
+    
+    if request.method == "POST":
+        check_csrf()
+
+        if "cancel" in request.form:
+            return redirect("/user/" + str(user_id))
+        
+        if "continue" in request.form:
+            users.remove_image(user_id)
+            flash("Kuvan poistaminen onnistui")
+            return redirect("/user/" + str(user_id))
+    
 
 def check_csrf():
     if request.form["csrf_token"] != session["csrf_token"]:

@@ -32,20 +32,20 @@
 
 {% if session.user_id %}
 <h3>Lisää lemmikki</h3>
-Tähdellä merkityt kentät ovat pakollisia.
+Tähdellä merkityt kentät ovat pakollisia. Nimen, eläinlajin ja rodun pituus voi olla maksimissaan 40 merkkiä.
 
 <form action="/new_pet" method="post">
   <p>
     Nimi*: <br />
-    <input type="text" name="name" maxlength="50" required/>
+    <input type="text" name="name" maxlength="40" required/>
   </p>
   <p>
     Eläinlaji*: <br />
-    <input type="text" name="species" maxlength="100" required/>
+    <input type="text" name="species" maxlength="40" required/>
   </p>
   <p>
     Rotu: <br />
-    <input type="text" name="breed"  maxlength="100"/>
+    <input type="text" name="breed"  maxlength="40"/>
   </p>
     <p>
     <label for="activity">Aktiivisuustaso*: </label>

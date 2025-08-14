@@ -8,6 +8,7 @@ body {
 
 h1, h2 {
   margin: 0;
+  margin-bottom: 0.5em;
 }
 
 .header {
@@ -49,6 +50,7 @@ nav li:not(:last-of-type) {
   background-color: rgb(214, 165, 211);
   margin: 1em;
   padding: 0.2em 0.5em;
+  overflow-wrap: break-word;
 }
 
 .info {

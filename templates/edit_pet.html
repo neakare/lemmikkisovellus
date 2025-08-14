@@ -14,22 +14,22 @@
       </p>
       {% endfor %}
 
-    Tähdellä merkityt kentät ovat pakollisia. 
+    Tähdellä merkityt kentät ovat pakollisia. Nimen, eläinlajin ja rodun pituus voi olla maksimissaan 40 merkkiä.
   </p>
 
   <p>
     Nimi*: <br />
-    <textarea name="name" maxlength="50" required>{{ pet.name }}</textarea>
+    <textarea name="name" maxlength="40" required>{{ pet.name }}</textarea>
   </p>
 
   <p>
     Eläinlaji*: <br />
-    <textarea name="species" maxlength="100" required>{{ pet.species }}</textarea>
+    <textarea name="species" maxlength="40" required>{{ pet.species }}</textarea>
   </p>
 
   <p>
     Rotu: <br />
-    <textarea name="breed" maxlength="100">{{ pet.breed }}</textarea>
+    <textarea name="breed" maxlength="40">{{ pet.breed }}</textarea>
   </p>
 
    <p>
