@@ -157,7 +157,7 @@ def get_grade_id(grade_id):
     return result[0] if result else None
 
 def get_grade_statistics(pet_id):
-    sql = """SELECT COUNT(id) grade_count, MAX(grade) max_grade, MIN(grade) min_grade, AVG(grade) average_grade
+    sql = """SELECT COUNT(id) grade_count, MAX(grade) max_grade, MIN(grade) min_grade, ROUND(AVG(grade),2) average_grade
              FROM grades
              WHERE pet_id = ?
              """

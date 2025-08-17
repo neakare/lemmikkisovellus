@@ -191,13 +191,17 @@ def edit_message(message_id):
         return render_template("edit.html", message=message, pet=pet)
 
     if request.method == "POST":
-        content = request.form["content"]
-        if len(content) >=0 and len (content)> 5000:
-            abort(403)
-        check_csrf()
-        petinfo.update_message(message["id"], content)
-        flash("Kommentin päivittäminen onnistui")
-        return redirect("/pet/" + str(message["pet_id"]))
+        if "continue" in request.form:
+            content = request.form["content"]
+            if len(content) >=0 and len (content)> 5000:
+                abort(403)
+            check_csrf()
+            petinfo.update_message(message["id"], content)
+            flash("Kommentin päivittäminen onnistui")
+            return redirect("/pet/" + str(message["pet_id"]))
+    
+        elif "cancel" in request.form:
+                return redirect ("/pet/" + str(message["pet_id"]))
 
 @app.route("/remove/<int:message_id>", methods=["GET", "POST"])
 def remove_message(message_id):

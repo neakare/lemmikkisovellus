@@ -19,7 +19,7 @@
       <textarea name="content" rows="5" cols="40"  maxlength="5000" required>{{ message.content }}</textarea>
     </p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" value="Lähetä" />
+    <input type="submit" name="continue" value="Lähetä" />
     <input type="submit" name="cancel" value="Peruuta" />
   </form>
 
