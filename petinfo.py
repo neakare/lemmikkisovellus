@@ -161,4 +161,5 @@ def get_grade_statistics(pet_id):
              FROM grades
              WHERE pet_id = ?
              """
-    return db.query(sql, [pet_id])
+    result = db.query(sql, [pet_id])
+    return result[0] if result else None

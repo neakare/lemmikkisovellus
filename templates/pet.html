@@ -42,11 +42,11 @@
   <hr />
   <h3>Arvostelut</h3>
     <p>
-      {% if pet.grade_count == 0 %}
-      Ei arvosteluja
+    {% if grade_statistics.grade_count == 0 %}
+      Lemmikillä ei ole vielä arvosteluja.
 
     {% else %} 
-    Lemmikille on annettu {{ pet.grade_count }} arvosanaa. Lemmikin huonoin arvosana on {{ pet.min_grade }}, paras arvosana on {{ pet.max_grade }} ja arvosanojen keskiarvo on {{ pet.average_grade }}.
+    Lemmikille on annettu {{ grade_statistics.grade_count }} arvosana(a). Lemmikin huonoin arvosana on {{ grade_statistics.min_grade }}, paras arvosana on {{ grade_statistics.max_grade }} ja arvosanojen keskiarvo on {{ grade_statistics.average_grade }}.
     {% endif %}
   </p>
 

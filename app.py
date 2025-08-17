@@ -19,14 +19,16 @@ def show_pet(pet_id):
     if not pet:
         abort(404)
     messages = petinfo.get_messages(pet_id)
-    user_id = session["user_id"]
     grades = petinfo.get_grades(pet_id)
-    grade = petinfo.get_grade(pet_id, user_id)
     grade_statistics = petinfo.get_grade_statistics(pet_id)
+    user_id = session.get("user_id")
+    grade = None
     is_graded = "False"
 
-    if petinfo.get_grade(pet_id, user_id):
-        is_graded = "True"
+    if user_id:
+        grade = petinfo.get_grade(pet_id, user_id)
+        if grade:
+            is_graded = "True"
 
     return render_template("pet.html", pet=pet, messages=messages, grades=grades, grade_statistics=grade_statistics, is_graded=is_graded, grade=grade)
 
