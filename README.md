@@ -46,7 +46,7 @@ sqliten voit esimerkiksi kopioida samaan kansioon omasta projektistasi.
 
 
 
-17.8. toinen väliarvostelu
+## 17.8. toinen väliarvostelu
 Ensimmäisen väliarvostelun jälkeen on tehty seuraavat parannukset:
 - Estetty CSFR-aukko
 - Rivitetty pitkät kommentit
