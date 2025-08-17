@@ -1,7 +1,7 @@
 # lemmikkisovellus
 
 ## Lemmikkisovelluksella on tällä hetkellä seuraavat ominaisuudet:
-1. Käyttäjä pystyyy tallentamaan lemmikkien tietoja. Lemmikin tiedoissa lukee sen eläinlaji, nimi ja rotu. Nimi on pakollinen tieto.
+1. Käyttäjä pystyyy tallentamaan lemmikkien tietoja. Lemmikin tiedoissa lukee sen eläinlaji, nimi ja rotu. 
 2. Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen ja ulos siitä.
 3. Käyttäjä näkee sovellukseen lisätyt lemmikit.
 4. Käyttäjä pystyy lisäämään lemmikkejä ja muokkaamaan niiden tietoja ja poistamaan niitä (muokkaus ja poistaminen on mahdollista vain käyttäjän lisäämille lemmikeille).
@@ -9,6 +9,8 @@
 6. Käyttäjä pystyy kommentoimaan lemmikkejä, muokkaamaan kommenttia ja poistamaan niitä (muokkaus ja poistaminen on mahdollista vain käyttäjän lisäämille kommenteille).
 7. Käyttäjä pystyy etsimään kommentteja hakusanalla. Haku hakee tällä hetkellä vain lemmikkien kommenteista.
 8. käyttäjän sivuilta näkee kootusti käyttäjän lisäämät lemmikit ja kommentit.
+9. Käyttäjä pystyy lisäämään kuvan itselleen käyttäjätietoihin, vaihtamaan sen ja poistamaan kuvan.
+10. Käyttäjä pystyy lisäämään kuvan lisäämilleen lemmikeille, vaihtamaan ja poistamaan kuvan.
 
 Tässä pääasiallinen tietokohde on lemmikki ja toissijainen tietokohde on kommentti lemmikin tietoihin.
 
@@ -43,14 +45,15 @@ sqliten voit esimerkiksi kopioida samaan kansioon omasta projektistasi.
 `flask run` tai `flask run --debug`  
 
 
-## Sovelluksen tämänhetkiset toiminnallisuudet ja niiden testaaminen
-Sovellus on vielä kehitysvaiheessa ja siinä ei sen takia ole vielä ihan kaikkia ominaisuuksia ja esimerkiksi ulkoasu on kovin viimeistelemätön. Alle on listattu asioita, joita olisi hyvä testata ja joita voi jo testata:
 
-1. Luo uusia käyttäjiä tietokantaan, kirjaudu sisään ja ulos eri käyttäjillä
-2. Luo uusia lemmikkejä tietokantaan, muokkaa niiden tietoja ja poista lemmikkejä.
-3. Kommentoi lemmikkien tietoja, muokkaa kommentteja ja poista niitä.
-4. Katso, että käyttäjän sivuille on koottu oikein käyttäjän lisäämät lemmikit ja kommentit
-5. Hae kommentteja haku-toiminnolla.
-
+17.8. toinen väliarvostelu
+Ensimmäisen väliarvostelun jälkeen on tehty seuraavat parannukset:
+- Estetty CSFR-aukko
+- Rivitetty pitkät kommentit
+- Käyttäjän rivinvaihdot näkyy sivulla
+- Lisätty ulkoasu koko sivustolle
+- Lisätty mahdollisuus lisätä, muokata ja poistaa kuvia käyttäjälle ja lemmikille
+- Parannettu valvontaa käyttäjän lähettämille tiedoille ja ohjeistusta käyttäjälle
+- Lisätty flask-viestit
 
 
