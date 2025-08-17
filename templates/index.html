@@ -17,15 +17,24 @@
   <p>
     <a href="/pet/{{ pet.id }}">{{ pet.name }}</a>
     <br />
+    {{pet.species}}, lisännyt <a href="/user/{{ pet.user_id }}">{{ pet.username }}</a><br/>
     {% if pet.total == 0 %}
-    {{pet.species}}, {{pet.breed}}, lisännyt <a href="/user/{{ pet.user_id }}">{{ pet.username }}</a><br/>
     Ei kommentteja
     
-    {% else %}
-    {{pet.species}}, {{pet.breed}}, lisännyt <a href="/user/{{ pet.user_id }}">{{ pet.username }}</a><br/> 
+    {% else %} 
     {{ pet.total }} kommenttia, uusin {{ pet.last }}
 
     {% endif %}
+    <br/>
+
+    {% if pet.grade_count == 0 %}
+    Ei arvosteluja
+
+    {% else %} 
+    Keskiarvo: {{ pet.average_grade }}
+
+    {% endif %}
+
   </p>
   </div>
   {% endfor %}

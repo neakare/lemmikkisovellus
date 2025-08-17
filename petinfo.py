@@ -117,3 +117,48 @@ def search(query): #hakee viestin sisällöstä
                    m.content LIKE ? 
              ORDER BY m.sent_at DESC"""
     return db.query(sql, ["%" + query + "%"])
+
+def add_grade(grade, user_id, pet_id):
+    sql = """INSERT INTO grades (grade, graded_at, user_id, pet_id)
+             VALUES (?, datetime('now'), ?, ?)"""
+    db.execute(sql, [grade, user_id, pet_id])
+
+def update_grade(grade_id, grade):
+    sql = "UPDATE grades SET grade = ? WHERE id = ?"
+    db.execute(sql, [grade, grade_id])
+
+def remove_grade(grade_id):
+    sql = "DELETE FROM grades WHERE id = ?"
+    db.execute(sql, [grade_id])
+
+def remove_all_grades(pet_id):
+    sql = "DELETE FROM grades WHERE pet_id = ?"
+    db.execute(sql, [pet_id])
+
+def get_grades(pet_id):
+    sql = """SELECT g.id, g.grade, g.graded_at, g.user_id, u.username
+             FROM grades g, users u
+             WHERE g.user_id = u.id AND g.pet_id = ?
+             ORDER BY g.id"""
+    return db.query(sql, [pet_id])
+
+def get_grade(pet_id, user_id):
+    sql = """SELECT g.id, g.grade, g.graded_at
+             FROM grades g
+             WHERE pet_id =? AND user_id = ?"""
+    result = db.query(sql, [pet_id, user_id])
+    return result[0] if result else None
+
+def get_grade_id(grade_id):
+    sql = """SELECT id, grade, graded_at, pet_id, user_id
+             FROM grades
+             WHERE id = ?"""
+    result = db.query(sql, [grade_id])
+    return result[0] if result else None
+
+def get_grade_statistics(pet_id):
+    sql = """SELECT COUNT(id) grade_count, MAX(grade) max_grade, MIN(grade) min_grade, AVG(grade) average_grade
+             FROM grades
+             WHERE pet_id = ?
+             """
+    return db.query(sql, [pet_id])

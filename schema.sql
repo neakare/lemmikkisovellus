@@ -43,7 +43,6 @@ INSERT INTO appetite (appetite) VALUES
 ('erittäin nirso')
 ;
 
-
 CREATE TABLE messages (
     id INTEGER PRIMARY KEY,
     content TEXT,
@@ -52,3 +51,10 @@ CREATE TABLE messages (
     pet_id INTEGER REFERENCES pets
 );
 
+CREATE TABLE grades (
+    id INTEGER PRIMARY KEY,
+    grade INTEGER,
+    graded_at TEXT,
+    user_id INTEGER REFERENCES users,
+    pet_id INTEGER REFERENCES pets
+);

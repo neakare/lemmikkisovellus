@@ -19,7 +19,16 @@ def show_pet(pet_id):
     if not pet:
         abort(404)
     messages = petinfo.get_messages(pet_id)
-    return render_template("pet.html", pet=pet, messages=messages)
+    user_id = session["user_id"]
+    grades = petinfo.get_grades(pet_id)
+    grade = petinfo.get_grade(pet_id, user_id)
+    grade_statistics = petinfo.get_grade_statistics(pet_id)
+    is_graded = "False"
+
+    if petinfo.get_grade(pet_id, user_id):
+        is_graded = "True"
+
+    return render_template("pet.html", pet=pet, messages=messages, grades=grades, grade_statistics=grade_statistics, is_graded=is_graded, grade=grade)
 
 @app.route("/new_pet", methods=["POST"])
 def new_pet():
@@ -82,6 +91,7 @@ def remove_pet(pet_id):
         if "continue" in request.form:
             check_csrf()
             petinfo.remove_all_messages(pet_id)
+            petinfo.remove_all_grades(pet_id)
             petinfo.remove_pet(pet_id)
             flash("Lemmikin poistaminen onnistui")
         elif "cancel" in request.form:
@@ -355,3 +365,68 @@ def show_lines(content):
     content = str(markupsafe.escape(content))
     content = content.replace("\n", "<br />")
     return markupsafe.Markup(content)
+
+@app.route("/new_grade", methods=["POST"])
+def new_grade():
+    require_login()
+    check_csrf()
+    grade = request.form["grade"]
+    user_id = session["user_id"]
+    pet_id = request.form["pet_id"]
+
+    if not grade:
+        abort(403)
+    
+    if petinfo.get_grade(pet_id, user_id):
+        flash("Olet jo arvostellut tämän lemmikin.")
+        return redirect("/pet/" + str(pet_id))
+    
+    if "grade" in request.form:
+            petinfo.add_grade(grade, user_id, pet_id)
+            flash("Arvostelun lisääminen onnistui")
+            return redirect("/pet/" + str(pet_id))
+
+@app.route("/edit_grade/<int:grade_id>", methods=["GET", "POST"])
+def edit_grade(grade_id):
+    require_login()
+    grade = petinfo.get_grade_id(grade_id)
+    pet = petinfo.get_pet(grade["pet_id"])
+
+    if not grade:
+        abort(404)
+    
+    if grade["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("edit_grade.html", pet=pet, grade=grade)
+
+    if request.method == "POST":
+        newgrade = request.form["grade"]
+        check_csrf()
+        petinfo.update_grade(grade["id"], newgrade)
+        flash("Arvostelun päivittäminen onnistui")
+        return redirect("/pet/" + str(grade["pet_id"]))
+    
+@app.route("/remove_grade/<int:grade_id>", methods=["GET", "POST"])
+def remove_grade(grade_id):
+    require_login()
+    grade = petinfo.get_grade_id(grade_id)
+    pet = petinfo.get_pet(grade["pet_id"])
+
+    if not grade:
+        abort(404)
+
+    if grade["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("remove_grade.html", grade=grade, pet=pet)
+
+    if request.method == "POST":
+        if "continue" in request.form:
+            check_csrf()
+            petinfo.remove_grade(grade["id"])
+            flash("Arvostelun poistaminen onnistui")
+        return redirect("/pet/" + str(grade["pet_id"]))
+    

@@ -40,7 +40,66 @@
   {% endif %}
 
   <hr />
+  <h3>Arvostelut</h3>
+    <p>
+      {% if pet.grade_count == 0 %}
+      Ei arvosteluja
+
+    {% else %} 
+    Lemmikille on annettu {{ pet.grade_count }} arvosanaa. Lemmikin huonoin arvosana on {{ pet.min_grade }}, paras arvosana on {{ pet.max_grade }} ja arvosanojen keskiarvo on {{ pet.average_grade }}.
+    {% endif %}
+  </p>
+
+  <p>
+      {% if session.user_id %}
+      {% if is_graded == "True" %}
+    Olet arvostellut lemmikin ja antanut sille arvosanaksi {{ grade.grade }}.
+    <p>
+    <a href="/edit_grade/{{ grade.id }}">Muokkaa arvostelua</a> |
+    <a href="/remove_grade/{{ grade.id }}">Poista arvostelu</a>
+    </p>
+
+    {% else %}
+    Voit halutettasi arvostella lemmikin. Asteikko on 1-5, joista 1 on heikoin ja 5 paras.</p>
+    <p>
+    <form action="/new_grade" method="post">
+    <label for="grade">Arvosana (1-5): </label>
+    <select name="grade" id="grade">
+    <option value="" selected disabled hidden>Valitse arvosana</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+
+  </select></p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="hidden" name="pet_id" value="{{ pet.id }}" />
+  <input type="submit" name="grade" value="Lähetä" />
+</form>
+
+ {% endif %}
+  {% endif %}
+
+
+
+  <hr />
+  {% if session.user_id %}
+  <h3>Uusi kommentti</h3>
+  Kommentin sallittu pituus on 1-5000 merkkiä.
+  <form action="/new_message" method="post">
+    <p>
+      <label for="content">Kommentti</label>:<br />
+      <textarea name="content" rows="5" cols="40"  maxlength="5000" required></textarea>
+    </p>
+    <input type="hidden" name="pet_id" value="{{ pet.id }}" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Lähetä" />
+  </form>
+  {% endif %}
+
   <h3>Kommentit</h3>
+
   {% for message in messages %}
   <div class="pet">
   <p id="{{ message.id }}">
@@ -57,19 +116,5 @@
   {% endif %}
   </div>
   {% endfor %}
-
-  {% if session.user_id %}
-  <h3>Uusi kommentti</h3>
-  Kommentin sallittu pituus on 1-5000 merkkiä.
-  <form action="/new_message" method="post">
-    <p>
-      <label for="content">Kommentti</label>:<br />
-      <textarea name="content" rows="5" cols="40"  maxlength="5000" required></textarea>
-    </p>
-    <input type="hidden" name="pet_id" value="{{ pet.id }}" />
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" value="Lähetä" />
-  </form>
-  {% endif %}
 
   {% endblock %}

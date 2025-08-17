@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}Lemmikkisovellus{% endblock %}
+
+{% block content %}
+
+<form action="/remove_grade/{{ grade.id }}" method="post">
+    <h3>Poista arvostelu lemmikiltä {{ pet.name }}</h3>
+
+    {% for message in get_flashed_messages() %}
+  <p class="info">
+    <b>{{ message }}</b>
+  </p>
+  {% endfor %}
+  
+    <p>
+      Olit antanut lemmikille {{ pet.name }} arvosanan {{ grade.grade }}. Haluatko varmasti poistaa arvostelun?
+    </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" name="continue" value="Jatka" />
+    <input type="submit" name="cancel" value="Peruuta" />
+  </form>
+
+
+  {% endblock %}
