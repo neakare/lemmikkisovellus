@@ -2,6 +2,7 @@ import sqlite3
 from flask import Flask
 from flask import redirect, render_template, request, session, abort, make_response, flash
 import db, config, users, petinfo, secrets, markupsafe
+from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -266,7 +267,10 @@ def login():
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
             flash("Sisäänkirjautuminen onnistui")
-            return redirect(next_page)
+            if urlparse(next_page).path == "/register": #ohjataan käyttäjä etusivulle jos hän on ennen login-sivua tulossa register-sivulta.
+                return redirect ("/")
+            else:
+                return redirect(next_page)
         else:
             flash("VIRHE: väärä tunnus tai salasana")
             return render_template("login.html", next_page=next_page)
