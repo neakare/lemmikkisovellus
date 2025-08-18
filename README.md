@@ -54,7 +54,7 @@ Ensimmäisen väliarvostelun jälkeen on tehty seuraavat parannukset:
 ### Uudet ominaisuudet
 - Lisätty ulkoasu koko sivustolle (lisätty main.css ja index.html)
 - Lisätty mahdollisuus lisätä, muokata ja poistaa kuvia käyttäjälle ja lemmikille
-- Lisätty valmiit luokat lemmikkien aktiivisuustasolle ja ruokahalulle. Luokkien arvot ovat valmiina tietokannassa ja käyttäjä valitsee arvon pudotusvalikosta. Lisätty mahdollisuus muokata arvoja.
+- Lisätty valmiit luokat lemmikkien aktiivisuustasolle ja ruokahalulle. Luokkien arvot ovat valmiina tietokannassa ja käyttäjä valitsee arvon pudotusvalikosta. Lisätty mahdollisuus muokata lemmikille asetettuja arvoja (käyttäjä voi muokata vain lemmikkejä, jotka on itse lisännyt).
 - Lisätty mahdollisuus arvostella lemmikki, muokata ja poistaa arvosteluja sekä arvostelutilastoja lemmikin sivuille.
 
 ### Muita parannuksia
