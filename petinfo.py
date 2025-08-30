@@ -103,7 +103,7 @@ def remove_all_messages(pet_id):
     sql = "DELETE FROM messages WHERE pet_id = ?"
     db.execute(sql, [pet_id])
 
-def search(query): #hakee viestin sisällöstä
+def search(query): #searches from message content
     sql = """SELECT m.id message_id,
                     m.pet_id,
                     p.name pet_name,

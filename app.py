@@ -267,7 +267,7 @@ def login():
             session["username"] = username
             session["csrf_token"] = secrets.token_hex(16)
             flash("Sisäänkirjautuminen onnistui")
-            if urlparse(next_page).path == "/register": #ohjataan käyttäjä etusivulle jos hän on ennen login-sivua tulossa register-sivulta.
+            if urlparse(next_page).path == "/register": #user is redirected to the frontpage, if they have been on the register-page before login.
                 return redirect ("/")
             else:
                 return redirect(next_page)
