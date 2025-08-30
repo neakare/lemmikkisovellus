@@ -20,6 +20,7 @@
         <li><a href="/">Etusivu</a></li>
         <li><a href="/search">Haku</a></li>
         {% if session.user_id %}
+        <li><a href="/user/{{ session.user_id }}">Oma sivu</a></li>
         <li><a href="/logout">Kirjaudu ulos</a></li>
         {% else %}
         <li><a href="/register">Luo tunnus</a></li>
