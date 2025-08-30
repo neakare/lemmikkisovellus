@@ -387,6 +387,10 @@ def new_grade():
     if not grade:
         abort(403)
     
+    if not grade.isnumeric():
+        flash("Arvosanan tulee olla välillä 1-5")
+        return redirect("/pet/" + str(pet_id))
+    
     if petinfo.get_grade(pet_id, user_id):
         flash("Olet jo arvostellut tämän lemmikin.")
         return redirect("/pet/" + str(pet_id))
