@@ -52,7 +52,7 @@
 
   <p>
       {% if session.user_id %}
-      {% if is_graded == "True" %}
+      {% if is_graded == True %}
     Olet arvostellut lemmikin ja antanut sille arvosanaksi {{ grade.grade }}.
     <p>
     <a href="/edit_grade/{{ grade.id }}">Muokkaa arvostelua</a> |
