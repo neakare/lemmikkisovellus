@@ -68,4 +68,18 @@ Ensimmäisen väliarvostelun jälkeen on tehty seuraavat parannukset:
 - Lisätty label-kuvaukset osaan lomakkeista, loput vielä työlistalla
 - Lisätty alt tekstit käyttäjän ja lemmikin kuviin
 
+## 31.8. tilannekatsaus
+Toisen väliarvostelun jälkeen on tehty seuraavat parannukset:
+- Lisätty Haku-sivulle kuvaus siitä, mistä tietokentästä hakutoiminto hakee.
+- Lisätty painikkeihin muotoilu
+- Lisätty käyttäjän antaman sisällön validointia app.py
+- Muutettu koodin kommentit englanninkielisiksi
+- Lisätty linkki käyttäjä-sivulle navigaatioon kun käyttäjä on kirjautunut sisään
+- Korjattu arvosanan lähetyksen validointia. Poistettu käyttäjältä mahdollisuus lähettää tyhjä arvosana.
+- Muutettu is_graded muuttuja tekstistä binääriseksi
+- Pävitetty linkkien ja viivojen väriä saavutettavammaksi.
+
+## Yleistä kurssista/omasta tuloksesta
+En tehnyt sovellukseen muutoksia 19.8.-29.8. välisenä aikana, koska ystäväni kuoli yllättäen 19.8. Tämä katkaisi minulta hetkeksi hyvässä vauhdissa olleen kehitystyön. Tuona aikana en myöskään tehnyt koodiin muutoksia, joten tämä ei vaikuttanut github-päivitysten kokoon tms. Tämän takia minulta jäi toteuttamatta joitain parannuksia joita olin suunnitellut. Lopputuloksesta tuli kuitenkin minusta kaikesta huolimatta ihan hyvä.
+
 
