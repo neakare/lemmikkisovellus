@@ -18,9 +18,9 @@
       Kuvan tulee olla kooltaan alle 100 kt ja .jpg -muotoinen.<br/><br/>
       Kuva: <input type="file" name="image" accept=".jpg" />
     </p>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" name ="continue" alue="Lähetä" />
-    <input type="submit" name="cancel" value="Palaa käyttäjän tietoihin" />
+    <input type="hidden"  class="button" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit"  class="button" name ="continue" alue="Lähetä" />
+    <input type="submit"  class="button" name="cancel" value="Palaa käyttäjän tietoihin" />
 
   </form>
 

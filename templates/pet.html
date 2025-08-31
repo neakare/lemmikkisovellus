@@ -75,7 +75,7 @@
   </select></p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="hidden" name="pet_id" value="{{ pet.id }}" />
-  <input type="submit" name="grade" value="Lähetä" />
+  <input type="submit" class="button" name="grade" value="Lähetä" />
 </form>
 
  {% endif %}
@@ -94,7 +94,7 @@
     </p>
     <input type="hidden" name="pet_id" value="{{ pet.id }}" />
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" value="Lähetä" />
+    <input type="submit"  class="button" value="Lähetä" />
   </form>
   {% endif %}
 
