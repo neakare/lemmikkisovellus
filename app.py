@@ -37,14 +37,26 @@ def show_pet(pet_id):
 def new_pet():
     require_login()
     check_csrf()
+
     name = request.form["name"]
     species = request.form["species"]
     breed = request.form["breed"]
     user_id = session["user_id"]
     activity_id = request.form["activity"]
     appetite_id = request.form["appetite"]
+
     if not name or any(len(item) > 100 for item in (name, species, breed)):
         abort(403)
+    
+    if not species:
+        abort(404)
+
+    if not activity_id:
+        abort(404)
+        
+    if not appetite_id:
+        abort(404)
+        
     pet_id = petinfo.add_pet(name, species, breed, user_id, activity_id, appetite_id)
     return redirect("/pet/" + str(pet_id))
 
@@ -70,8 +82,22 @@ def edit_pet(pet_id):
         breed = request.form["breed"]
         activity_id = request.form["activity"]
         appetite_id = request.form["appetite"]
+
         if any(len(item) > 40 for item in (name, species, breed, activity_id, appetite_id)):
             abort(403)
+        
+        if not species:
+            abort(404)
+        
+        if not name:
+            abort(404)
+
+        if not activity_id:
+            abort(404)
+        
+        if not appetite_id:
+            abort(404)
+
         check_csrf()
         petinfo.update_pet(pet_id, name, species, breed, activity_id, appetite_id)
         flash("Tietojen päivittäminen onnistui")
